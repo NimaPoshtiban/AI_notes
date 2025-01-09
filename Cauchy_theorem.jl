@@ -40,7 +40,7 @@ md"""
 
 **Toy contour**: any closed curve where the notion of the interior is obvious
 
-$$\large f(\mathcal{z})\,=\,\frac{1}{2\pi i} \oint_{\mathcal{C}}{\dfrac{f(\varsigma)}{\varsigma\,-\mathcal{z}}d\varsigma}$$
+$$\large f(\mathcal{z})\,=\,\frac{1}{2\pi i} \oint_{\mathcal{C}}{\dfrac{f(\zeta)}{\zeta\,-\mathcal{z}}d\varsigma}$$
 """
 
 # ╔═╡ 7b4891f0-b9de-4c20-bd84-14fa870df02b
@@ -48,7 +48,7 @@ md"""
 # Cauchy integral formula for the *nth* derivative of $f(z)$
 
 
-$\large f^{(n)}(\mathcal{z})\,=\,\frac{n!}{2\pi i}\oint_{\mathcal{C}}{\dfrac{f(\varsigma)}{(\varsigma\,-\mathcal{z})^{n+1}}d\varsigma}$
+$\large f^{(n)}(\mathcal{z})\,=\,\frac{n!}{2\pi i}\oint_{\mathcal{C}}{\dfrac{f(\zeta)}{(\zeta\,-\mathcal{z})^{n+1}}d\zeta}$
 for all $z\,$ in the interior of $C$
 """
 
@@ -89,7 +89,7 @@ and the **coefficients** are given by:
 
 $\large a_{n}\,=\,\dfrac{f^{(n)}(z_{0})}{n!}$
 
-$$\Large \implies f(z)\,=\,\sum_{n=0}^{\infty}{\left(\frac{1}{2\pi i}\oint_{\mathcal{C}}{\dfrac{f(\varsigma)}{(\varsigma-z_{0})^{n+1}}d\varsigma}\right)\cdot(z-z_{0})^{n}}$$
+$$\Large \implies f(z)\,=\,\sum_{n=0}^{\infty}{\left(\frac{1}{2\pi i}\oint_{\mathcal{C}}{\dfrac{f(\zeta)}{(\zeta-z_{0})^{n+1}}d\zeta}\right)\cdot(z-z_{0})^{n}}$$
 """
 
 # ╔═╡ 6d49c912-01bb-47dc-83cf-f4cc5ceef2ee
