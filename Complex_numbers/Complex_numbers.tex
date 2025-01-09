@@ -1,0 +1,1130 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Complex\_numbers}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{import}\PY{+w}{ }\PY{n}{Pkg}
+\PY{k}{import}\PY{+w}{ }\PY{n}{Base}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \section{Complex Numbers}\label{complex-numbers}
+
+    \subsection{A preliminary to complex
+numbers}\label{a-preliminary-to-complex-numbers}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  \textbf{\emph{Definition of a complex number}}\\
+  A complex number \(\mathit{z}\) is defined in this form:
+  \(\mathit{z}\,=\,x+iy\) where \$ x \$is the \(Real\, part\) and \(y\)
+  is the \(imaginary\,\,part\,,y\ne0\)
+\end{enumerate}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{z}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+m+mi}{2}\PY{+w}{ }\PY{o}{+}\PY{+w}{ }\PY{l+m+mi}{2}\PY{n+nb}{im}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+2 + 2im
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \textbf{\emph{Absolute Value of a complex number}}\\
+  \(|\mathit{z}\,| = (x^{2}+y^{2})^{\frac{1}{2}}\)
+\end{enumerate}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{abs}\PY{p}{(}\PY{n}{z}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+2.8284271247461903
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  \textbf{\emph{Complex Conjucate}}\\
+  \$ ,\bar\{z\},=,x-iy\$\\
+  if \$ z,=,\bar\{z\} ,\$ then \$ z \in \Re \$\\
+  if \$ z,=,-\bar\{z\}, \$ then \(z\) is purely imaginary
+  \(z \notin \Re\)
+\end{enumerate}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{z̄}\PY{o}{=}\PY{n}{conj}\PY{p}{(}\PY{n}{z}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+2 - 2im
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  \textbf{\emph{Complex numbers real and imaginary parts}}\\
+  \(\left|\,z\,\right|^{2}\,\,=\,\,z\bar{z}\) \(\implies\)
+  \(\frac{1}{z}\,\,=\,\,\frac{\bar{z}}{\left|\,z\,\right|^{2}}\) where
+  \(z\ne0\,\,\,\,\) \(Re(z)\,\,= \huge \,\,\frac{z+\bar{z}}{2}\,\,\) and
+  \(\,\,\,Im(z)\,=\huge \,\frac{z-\bar{z}}{2i}\)
+\end{enumerate}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{abs2}\PY{p}{(}\PY{n}{z}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+8
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  \textbf{\emph{Polar form of Complex numbers}}\\
+  \(\huge z\,=\,re^{i\theta}\,\,,\) where \$ r \textgreater{} 0,,\$and
+  \(\huge r\) is abosolute value of \(z\,\,\,\) and
+  \(\theta\,\in\mathbb{R}\, , \, \theta\,=\,\arctan(Im(z)/Re(z))\)\\
+  \(\huge e^{i\theta}\,=\,\cos{\theta}+\,i\sin{\theta}\)
+
+  If\(\huge \,\,\,z=\,re^{i\theta}\,\,\) and
+  \(\huge\,\,w=se^{i\varphi}\,\,\) then
+  \(\huge\,\,\,zw\,=\,rse^{i(\theta+\varphi)}\)
+\end{enumerate}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{using}\PY{+w}{ }\PY{n}{LaTeXStrings}
+
+\PY{n}{println}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Demonstration of Polar form if a Complex number}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{θ}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n+nb}{π}\PY{+w}{ }\PY{o}{/}\PY{+w}{ }\PY{l+m+mi}{4}\PY{+w}{  }
+
+
+\PY{n}{arc}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{+w}{ }\PY{n}{stop}\PY{o}{=}\PY{n}{θ}\PY{p}{,}\PY{+w}{ }\PY{n}{length}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+\PY{n}{x\PYZus{}arc}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{cos}\PY{o}{.}\PY{p}{(}\PY{n}{arc}\PY{p}{)}
+\PY{n}{y\PYZus{}arc}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{sin}\PY{o}{.}\PY{p}{(}\PY{n}{arc}\PY{p}{)}
+
+
+\PY{n}{Plots}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}arc}\PY{p}{,}\PY{+w}{ }\PY{n}{y\PYZus{}arc}\PY{p}{,}\PY{+w}{ }\PY{n}{label}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{θ}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{+w}{ }\PY{n}{legend}\PY{o}{=}\PY{l+s+ss}{:right}\PY{p}{,}\PY{+w}{ }\PY{n}{title}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{z}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{+w}{ }\PY{n}{xlabel}\PY{o}{=}\PY{l+s+sa}{L}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{l+s}{\PYZbs{}}\PY{l+s}{mathbb\PYZob{}R\PYZcb{}}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{,}\PY{+w}{ }\PY{n}{ylabel}\PY{o}{=}\PY{l+s+sa}{L}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{l+s}{\PYZbs{}}\PY{l+s}{mathbf\PYZob{}i\PYZcb{}}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{,}\PY{+w}{ }\PY{n}{line}\PY{o}{=}\PY{p}{(}\PY{l+s+ss}{:solid}\PY{p}{,}\PY{+w}{ }\PY{l+s+ss}{:blue}\PY{p}{)}\PY{p}{)}
+
+
+\PY{n}{Plots}\PY{o}{.}\PY{n}{plot!}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{,}\PY{+w}{ }\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{,}\PY{+w}{ }\PY{n}{label}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{r}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{+w}{ }\PY{n}{line}\PY{o}{=}\PY{p}{(}\PY{l+s+ss}{:solid}\PY{p}{,}\PY{+w}{ }\PY{l+s+ss}{:red}\PY{p}{)}\PY{p}{)}
+
+
+\PY{n}{plot!}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{,}\PY{+w}{ }\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{+w}{ }\PY{n}{label}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{Real\PYZhy{}axis}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{+w}{ }\PY{n}{line}\PY{o}{=}\PY{p}{(}\PY{l+s+ss}{:dash}\PY{p}{,}\PY{+w}{ }\PY{l+s+ss}{:black}\PY{p}{)}\PY{p}{)}
+\PY{n}{scatter!}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{10}\PY{p}{]}\PY{p}{,}\PY{+w}{ }\PY{n}{label}\PY{o}{=}\PY{l+s+sa}{L}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{l+s}{re\PYZca{}\PYZob{}iθ\PYZcb{}}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{,}\PY{+w}{ }\PY{n}{marker}\PY{o}{=}\PY{l+s+ss}{:circle}\PY{p}{,}\PY{+w}{ }\PY{n}{markersize}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,}\PY{+w}{ }\PY{n}{color}\PY{o}{=}\PY{l+s+ss}{:green}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Demonstration of Polar form if a Complex number
+    \end{Verbatim}
+ 
+            
+\prompt{Out}{outcolor}{15}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_11_1.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{w}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+m+mi}{3}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{n+nb}{im}
+\PY{n}{printstyled}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{zw = }\PY{l+s+si}{\PYZdl{}}\PY{p}{(}\PY{n}{z}\PY{o}{*}\PY{n}{w}\PY{p}{)}\PY{l+s+se}{\PYZbs{}n}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{n}{color}\PY{o}{=}\PY{l+s+ss}{:blue}\PY{p}{)}
+\PY{n}{r}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{abs}\PY{p}{(}\PY{n}{z}\PY{p}{)}
+\PY{n}{s}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{abs}\PY{p}{(}\PY{n}{w}\PY{p}{)}
+\PY{n}{θ}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{atan}\PY{p}{(}\PY{n}{z}\PY{o}{.}\PY{n+nb}{im}\PY{o}{/}\PY{n}{z}\PY{o}{.}\PY{n}{re}\PY{p}{)}
+\PY{n}{φ}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{atan}\PY{p}{(}\PY{n}{w}\PY{o}{.}\PY{n+nb}{im}\PY{o}{/}\PY{n}{w}\PY{o}{.}\PY{n}{re}\PY{p}{)}
+\PY{n}{polarform}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{r}\PY{o}{*}\PY{n}{s}\PY{o}{*}\PY{n}{exp}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{\PYZca{}}\PY{p}{(}\PY{l+m+mi}{1}\PY{n+nb}{im}\PY{o}{*}\PY{p}{(}\PY{n}{θ}\PY{+w}{ }\PY{o}{+}\PY{+w}{ }\PY{n}{φ}\PY{p}{)}\PY{p}{)}
+\PY{n}{printstyled}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{rse\PYZca{}i(θ+φ) = }\PY{l+s+si}{\PYZdl{}polarform}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{n}{color}\PY{o}{=}\PY{l+s+ss}{:red}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textcolor{ansi-blue}{zw = 8 + 4im}
+\textcolor{ansi-red}{rse\^{}i(θ+φ) = 8.0 + 4.0im}
+    \end{Verbatim}
+
+    \subsubsection{Convergence}\label{convergence}
+
+A sequence \(\,\,\left\{z_{1}\,,z_{2}\,,...\right\}\) of complex numbers
+is said to converge to \(\,\,\mathit{w}\,\in\,\mathbb{C}\,\,\) if
+\[ lim_{n\to\infty\,}{|\,z_{n}\,-\,\mathit{w}\,\,|}\,\,=0\,\, \,\,\text{and we write} \,\,\,\mathit{w}\,=\,lim_{n\to\infty}{z_{n}} \]
+\textbf{\emph{Cauchy sequence (or simply Cauchy)}}\\
+A sequence \$,\left\{,z\_\{n\},\right\} \$ is said to be a
+\textbf{Cauchy} if
+\[ \left|\,z_{n}\,\,-\,\,z_{m}\,\right|\,\to\,0\,\,\,\, \text{as\,\,} n,m\,\to\infty\]
+\textbf{Every Cauchy sequence in \(\mathbb{C}\,\,\)has a limit in
+\(\,\mathbb{C}\,\)}
+
+    \subsubsection{Sets in the Complex
+Plain}\label{sets-in-the-complex-plain}
+
+\textbf{\emph{if}} \(\,z_{0}\,\in\,\mathbb{C}\,\,\) and
+\(\,\,r\,>\,0\,\) we define an open disk
+\(\mathbf{D}_{r}\left(z_{0}\right)\,\) that is centered at \(z_{0}\) and
+has a radius of \(r\)
+
+An \textbf{\emph{open disk}} is defined \$ ,,
+\mathbf{D}\emph{\{r\}\left(z}\{0\}\right),=, \left\{,z,\in,\mathbb{C}, :
+, \textbar,z,-,z\_\{0\},\textbar{} , \textless,r,\right\} ,\$
+
+A \textbf{\emph{close disk}} is defined \$ ,,
+\mathbf{\overline{D}}\emph{\{r\}\left(z}\{0\}\right),=,
+\left\{,z,\in,\mathbb{C}, : , \textbar,z,-,z\_\{0\},\textbar{}
+,\le,r,\right\} \$
+
+\textbf{\emph{And the boundary of the either closed or open disk is the
+circle:}}
+\(\,\mathbf{C}_{r}(z_{0})\,=\,\left\{\,\,z\,\in\,\mathbb{C}\, : \, | \,z\,-\,z_{0}\,\,|\,=\,r\,\right\}\)
+
+\textbf{\emph{Unit Disk}} is centered at origin and of radius \textbf{1}
+\(\,\mathbb{D}\,=\,\left\{\,z\,\in\,\mathbb{C}\, : \, |\,z\,|\,<\,1\right\}\)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{using}\PY{+w}{ }\PY{n}{ComplexPlots}\PY{p}{,}\PY{+w}{ }\PY{n}{Plots}\PY{p}{,}\PY{+w}{ }\PY{n}{ComplexValues}
+\PY{n}{zc}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{cispi}\PY{o}{.}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{0}\PY{o}{:}\PY{l+m+mi}{100}\PY{p}{)}\PY{+w}{ }\PY{o}{/}\PY{+w}{ }\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{;}
+\PY{n}{Plots}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n+nd}{@.}\PY{+w}{ }\PY{n}{Polar}\PY{p}{(}\PY{n}{zc}\PY{p}{)}\PY{p}{;}\PY{n}{label}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{Unit DisK}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{16}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_15_0.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    Given a set \(\,\Omega\,\,\subset\,\mathbb{C}\,\), a point \(z_{0}\,\)
+is \textbf{\emph{an interior point}} of \(\Omega\) if there exists
+\(\,r\,>\,0\) such that \[ \mathbf{D}_{r}(z_{0})\,\subset\,\Omega\]
+
+The interior of \(\Omega\) consists of all its interior points.
+
+A set \(\Omega\) is \textbf{\emph{open}} if every point in that set is
+an interior point of \(\Omega\)
+
+A set \(\Omega\) is \textbf{\emph{closed}} if its complement
+\(\,\Omega^{\small{c}}\,=\,\mathbb{C}\,-\,\Omega\) is open. this
+property can be reformulated in terms of \emph{limit points}. A point
+\(\,z\in\,\mathbb{C}\) is said to be a \emph{limit point} of the set
+\(\Omega\) if there exists a sequence of points \(\,z_{n}\,\in\,\Omega\)
+such that \(\,z_{n}\,\ne\,z\,\) and
+\(\,\lim_{n\to\infty}{\,z_{n}\,=\,z}\)
+
+The \textbf{\emph{closure}} of any set \(\Omega\) is the union of
+\(\Omega\) and its \emph{limit points}, and is often denoted by
+\(\huge \overline{\Omega}\)
+
+The boundary of a set \(\Omega\) is equal to its closure minus its
+interior, and is often denoted by \(\huge\partial\Omega\).
+
+A set \(\Omega\) is \textbf{\emph{bounded}} if there exists
+\(\,M\,>\,0\,\) such that \(\,|\,z\,|\,<\,M\) whenever
+\(\,z\,\in\,\Omega\). In other words, the set \(\Omega\) is contained in
+some larger disk.
+
+If \(\Omega\) \textbf{\emph{bounded}}, we define its diameter by:
+\[ diam(\Omega)\,=\,\underset{z,w\,\in\,\Omega}{sup}\,|\,z\,-\,w\,|\]
+
+A set \(\Omega\) is said to be \textbf{\emph{compact}} if it is closed
+and bounded.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{zc}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{cispi}\PY{o}{.}\PY{p}{(}\PY{l+m+mi}{2}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{0}\PY{o}{:}\PY{l+m+mi}{100}\PY{p}{)}\PY{+w}{ }\PY{o}{/}\PY{+w}{ }\PY{l+m+mi}{100}\PY{p}{)}\PY{p}{;}
+\PY{n}{gr}\PY{p}{(}\PY{p}{)}
+\PY{n}{Plots}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n+nd}{@.}\PY{+w}{ }\PY{n}{Polar}\PY{p}{(}\PY{n}{zc}\PY{p}{)}\PY{p}{;}\PY{n}{label}\PY{o}{=}\PY{l+s+sa}{L}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{l+s}{Compact}\PY{l+s}{\PYZbs{}}\PY{l+s}{,}\PY{l+s}{\PYZbs{}}\PY{l+s}{,}\PY{l+s}{\PYZbs{}}\PY{l+s}{Omega}\PY{l+s}{\PYZbs{}}\PY{l+s}{,}\PY{l+s}{\PYZbs{}}\PY{l+s}{, set}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{,}\PY{p}{)}
+\PY{n}{Plots}\PY{o}{.}\PY{n}{plot!}\PY{p}{(}\PY{n+nd}{@.}\PY{+w}{ }\PY{n}{Polar}\PY{p}{(}\PY{n}{zc}\PY{o}{+}\PY{n}{zc}\PY{p}{)}\PY{p}{;}\PY{n}{label}\PY{o}{=}\PY{l+s+sa}{L}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{l+s}{Superset}\PY{l+s}{\PYZbs{}}\PY{l+s}{,}\PY{l+s}{\PYZbs{}}\PY{l+s}{, of}\PY{l+s}{\PYZbs{}}\PY{l+s}{,}\PY{l+s}{\PYZbs{}}\PY{l+s}{,}\PY{l+s}{\PYZbs{}}\PY{l+s}{, }\PY{l+s}{\PYZbs{}}\PY{l+s}{Omega}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{,}\PY{n}{legend}\PY{o}{=}\PY{l+s+ss}{:topleft}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{11}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_17_0.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    \textbf{\emph{Set Connectedness}}
+
+if an open set \(\Omega\,\in\,\mathbb{C}\) \textbf{\emph{Can not}} be
+written as the union of two disjoint open sets:
+\(\Omega\,=\,\Omega_{1}\cup\,\Omega_{2}\,\).
+
+it is a connected set and will be called \textbf{\emph{Region}}
+
+a closed set \(F\) is connected if it \textbf{\emph{can not}} be written
+as the union of two disjoint closed sets: \(F\,=\,F_{1}\cup\,F_{2}\,\)
+
+Note: an open set \(\Omega\) is connected if any 2 points on \(\Omega\)
+can be joined by a curve \(\gamma\) entirely contained in \(\Omega\)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{import}\PY{+w}{ }\PY{n}{GLMakie}
+
+\PY{c}{\PYZsh{} Parameters for the annular region Omega}
+\PY{n}{c}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+m+mf}{0.0}\PY{+w}{ }\PY{o}{+}\PY{+w}{ }\PY{l+m+mf}{0.0}\PY{n+nb}{im}\PY{+w}{  }\PY{c}{\PYZsh{} Center of the annulus in the complex plane}
+\PY{n}{r1}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+m+mf}{1.0}\PY{+w}{         }\PY{c}{\PYZsh{} Outer radius}
+\PY{n}{r2}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+m+mf}{0.5}\PY{+w}{         }\PY{c}{\PYZsh{} Inner radius}
+
+\PY{c}{\PYZsh{} Parameters for the closed set F (for example, a small circle inside Omega)}
+\PY{n}{r\PYZus{}F}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+m+mf}{0.3}\PY{+w}{        }\PY{c}{\PYZsh{} Radius of the closed set F}
+\PY{n}{center\PYZus{}F}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+m+mf}{0.5}\PY{+w}{ }\PY{o}{+}\PY{+w}{ }\PY{l+m+mf}{0.5}\PY{n+nb}{im}\PY{+w}{  }\PY{c}{\PYZsh{} Center of the closed set F}
+
+\PY{c}{\PYZsh{} Create a grid of points}
+\PY{n}{x}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{GLMakie}\PY{o}{.}\PY{k+kt}{LinRange}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{1.5}\PY{p}{,}\PY{+w}{ }\PY{l+m+mf}{1.5}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{400}\PY{p}{)}
+\PY{n}{y}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{GLMakie}\PY{o}{.}\PY{k+kt}{LinRange}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{1.5}\PY{p}{,}\PY{+w}{ }\PY{l+m+mf}{1.5}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{400}\PY{p}{)}
+
+
+\PY{n}{xx}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{repeat}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{+w}{ }\PY{n}{length}\PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{+w}{ }\PY{c}{\PYZsh{} Create a 1D vector and repeat it for all y values}
+\PY{n}{yy}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{repeat}\PY{p}{(}\PY{n}{y}\PY{p}{,}\PY{+w}{ }\PY{n}{inner}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{length}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{+w}{ }\PY{c}{\PYZsh{} Repeat y values for all x values}
+
+\PY{c}{\PYZsh{} Reshape xx and yy into matrices to form the mesh grid}
+\PY{n}{xx}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{reshape}\PY{p}{(}\PY{n}{xx}\PY{p}{,}\PY{+w}{ }\PY{n}{length}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{,}\PY{+w}{ }\PY{n}{length}\PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{)}
+\PY{n}{yy}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{reshape}\PY{p}{(}\PY{n}{yy}\PY{p}{,}\PY{+w}{ }\PY{n}{length}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{,}\PY{+w}{ }\PY{n}{length}\PY{p}{(}\PY{n}{y}\PY{p}{)}\PY{p}{)}
+
+\PY{c}{\PYZsh{} Define the complex grid zz}
+\PY{n}{zz}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{xx}\PY{+w}{ }\PY{o}{.+}\PY{+w}{ }\PY{n+nb}{im}\PY{+w}{ }\PY{o}{.*}\PY{+w}{ }\PY{n}{yy}
+
+\PY{c}{\PYZsh{} Define the region Omega (annulus: r2 \PYZlt{} |z \PYZhy{} c| \PYZlt{} r1)}
+\PY{n}{omega}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{(}\PY{n}{abs}\PY{o}{.}\PY{p}{(}\PY{n}{zz}\PY{+w}{ }\PY{o}{.\PYZhy{}}\PY{+w}{ }\PY{n}{c}\PY{p}{)}\PY{+w}{ }\PY{o}{.\PYZgt{}}\PY{+w}{ }\PY{n}{r2}\PY{p}{)}\PY{+w}{ }\PY{o}{.\PYZam{}}\PY{+w}{ }\PY{p}{(}\PY{n}{abs}\PY{o}{.}\PY{p}{(}\PY{n}{zz}\PY{+w}{ }\PY{o}{.\PYZhy{}}\PY{+w}{ }\PY{n}{c}\PY{p}{)}\PY{+w}{ }\PY{o}{.\PYZlt{}}\PY{+w}{ }\PY{n}{r1}\PY{p}{)}
+
+\PY{c}{\PYZsh{} Plotting the region Omega}
+\PY{n}{fig}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{GLMakie}\PY{o}{.}\PY{n}{Figure}\PY{p}{(}\PY{n}{size}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{(}\PY{l+m+mi}{800}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{600}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{GLMakie}\PY{o}{.}\PY{n}{Axis}\PY{p}{(}\PY{n}{fig}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{+w}{ }\PY{n}{title}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{Region Ω and Set F in the Complex Plane}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+
+\PY{c}{\PYZsh{} Plot Omega using scatter}
+\PY{n}{GLMakie}\PY{o}{.}\PY{n}{scatter!}\PY{p}{(}\PY{n}{ax}\PY{p}{,}\PY{+w}{ }\PY{n}{real}\PY{p}{(}\PY{n}{zz}\PY{p}{[}\PY{n}{omega}\PY{p}{]}\PY{p}{)}\PY{p}{,}\PY{+w}{ }\PY{n}{imag}\PY{p}{(}\PY{n}{zz}\PY{p}{[}\PY{n}{omega}\PY{p}{]}\PY{p}{)}\PY{p}{,}\PY{+w}{ }\PY{n}{color}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s+ss}{:blue}\PY{p}{,}\PY{+w}{ }\PY{n}{alpha}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+m+mf}{0.3}\PY{p}{,}\PY{+w}{ }\PY{n}{label}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{Ω}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+
+\PY{c}{\PYZsh{} Plot the closed set F (a circle)}
+\PY{n}{theta}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{GLMakie}\PY{o}{.}\PY{k+kt}{LinRange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{2}\PY{+w}{ }\PY{o}{*}\PY{+w}{ }\PY{n+nb}{π}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{200}\PY{p}{)}
+\PY{n}{x\PYZus{}F}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{real}\PY{p}{(}\PY{n}{center\PYZus{}F}\PY{p}{)}\PY{+w}{ }\PY{o}{.+}\PY{+w}{ }\PY{n}{r\PYZus{}F}\PY{+w}{ }\PY{o}{*}\PY{+w}{ }\PY{n}{cos}\PY{o}{.}\PY{p}{(}\PY{n}{theta}\PY{p}{)}
+\PY{n}{y\PYZus{}F}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{imag}\PY{p}{(}\PY{n}{center\PYZus{}F}\PY{p}{)}\PY{+w}{ }\PY{o}{.+}\PY{+w}{ }\PY{n}{r\PYZus{}F}\PY{+w}{ }\PY{o}{*}\PY{+w}{ }\PY{n}{sin}\PY{o}{.}\PY{p}{(}\PY{n}{theta}\PY{p}{)}
+
+\PY{c}{\PYZsh{} Plot F}
+\PY{n}{GLMakie}\PY{o}{.}\PY{n}{plot!}\PY{p}{(}\PY{n}{ax}\PY{p}{,}\PY{+w}{ }\PY{n}{x\PYZus{}F}\PY{p}{,}\PY{+w}{ }\PY{n}{y\PYZus{}F}\PY{p}{,}\PY{+w}{ }\PY{n}{color}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s+ss}{:red}\PY{p}{,}\PY{+w}{ }\PY{n}{label}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{Set F}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+
+\PY{c}{\PYZsh{} Add axis labels}
+\PY{n}{ax}\PY{o}{.}\PY{n}{xlabel}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{Re(z)}\PY{l+s}{\PYZdq{}}
+\PY{n}{ax}\PY{o}{.}\PY{n}{ylabel}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{Im(z)}\PY{l+s}{\PYZdq{}}
+
+\PY{c}{\PYZsh{} Display the figure}
+\PY{n}{fig}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{19}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_19_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    \paragraph{Continues Complex Function}\label{continues-complex-function}
+
+\$ \left\{,z\_\{1\},z\_\{2\},.,.,.,. \right\},
+\subset \Omega,,,\lim\emph{\{z}\{n\}\} = z\_\{0\},,\$ then
+\(\,\,\lim\,f(z_{n})\,=\,f(z_{0})\,\) \(f\) is continues on \(\Omega\)
+if it is continues at every point of \(\Omega\).
+
+Sums and Products of continues functions are also continues.
+
+    \subsubsection{Holomorphic Functions}\label{holomorphic-functions}
+
+Let \(\Omega\) be an open set in \(\mathbb{C}\) and \(\,f\,\) is a
+complex-valued function on \(\Omega\).
+
+The function \(\,f\,\) is holomorphic at the point
+\(\,z_{0}\,\in\Omega\) if the quotient \$
+\frac{f(z_{0}+h)-f(z_{0})}{h},,\text{and},,,,h\ne0, , , h
+\in \mathbb{C}\$ converges to a limit when \(h\to 0\).
+
+The limit of quotient when exists, is denoted by \(\,f\acute(z_{0})\)
+and is called \textbf{\emph{the derivetive of}} \(\,f\,\) at \(\,z_{0}\)
+
+\[ f\acute(z_{0})\,=lim_{h\to0}{\frac{f(z_{0}+h)-f(z_{0})}{h}}\]
+
+\(f\) is said to be \textbf{\emph{holomorphic}} on \(\Omega\) if \(f\)
+is \textbf{\emph{holomorphic}} every point of \(\Omega\)
+
+if \(\mathcal{C}\) is a closed subset of \(\mathbb{C}\), \(f\) is
+\textbf{\emph{holomorphic}} in some open set containing \(\mathcal{C}\).
+
+if \(f\) is \textbf{\emph{holomorphic}} in \textbf{all} of
+\(\mathbb{C}\,,\) we say that \(f\) is \textbf{\emph{entire}}.
+
+Sometimes the terms \textbf{regular} or \textbf{complex-differentiable}
+are used instead of \textbf{\emph{holomorphic}}.
+
+\textbf{\emph{holomorphic}} function is \textbf{\emph{infinitely
+differentiable}}, that is the existence of the \textbf{first derivative}
+will guarantee the existence of derivatives of any order.
+
+Every \textbf{\emph{holomorphic}} function is analytic in the sense that
+it has a power series expansion near every point. So the term analytic
+is a synonym for \textbf{\emph{holomorphic}}
+
+It is clear \(f\) is \textbf{\emph{holomorphic}} at
+\(\,z_{0}\,\in\Omega\) if and only if there exists a complex number
+\(a\) such that
+
+\[f(z_{0}\,+h)\,-f(z_{0})\,-ah\,=\,h\psi(h)\] where \(\psi\) is a
+function defined for all small \(h\) and
+\(\,lim_{h\to0}{\,\,\,\,\psi(h)}\,=\,0\). Ofcourse we have
+\(a\,=\,f\acute(z_{0})\)
+
+if \(f\) and \(g\) are \textbf{\emph{holomorphic}} in \(\Omega\) then:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \(f\,+\,g\,\) is \textbf{\emph{holomorphic}} in \(\Omega\) and \$(f,+,
+  g)\acute{} ,=,\acute{f} , + \acute{g} \$
+\item
+  \(fg\,\,\) is \textbf{\emph{holomorphic}} in \(\Omega\) and
+  \((fg)\acute{} \,=\acute{f}g\,+\,f\acute{g}\,\)
+\item
+  if \(g(z_{0}) \,\ne\, 0\,\,\) then \(f/g\) is
+  \textbf{\emph{holomorphic}} at \(z_{0}\,\) and
+  \[(f/g)\acute{}\,= \,\frac{\acute{f}g\,+\,f\acute{g}}{g^{2}}\]
+\end{enumerate}
+
+    \subparagraph{Reminder}\label{reminder}
+
+\textbf{\emph{Gamma Function}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\item
+  \textbf{Main Definition} :
+  \[\Huge\Gamma{(z)}\,=\,\Huge \int_{0}^{\infty}{t^{z-1}e^{-t}\, dt}\,\quad \text{where} \,\,\,\Huge \Re{(z)} > 0\,\,\, \]
+\item
+  \textbf{Euler's definition as an infinite product} :
+  \[\Huge \lim_{n\to\infty\,\,}{\dfrac{n!(n+1)^{z}}{(n+z)!}} \quad \Huge \implies \, \Gamma{(z)}\,=\,\tfrac{1}{z}\prod_{n=1}^{ \infty} {\left[\dfrac{1}{1+\frac{z}{n}}\left(1+\dfrac{1}{n}\right)^{\mathcal{z}}\,\,\right]}\]
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  \textbf{Euler's Reflection formula} :
+\end{enumerate}
+
+\[\Huge\Gamma{(1-z)}\Gamma{(z)}\,=\,\dfrac{\pi}{\sin{\pi z}},\,\,\, z \not\in\,\, \mathbb{Z}\,\, \implies \,\Gamma{(z-n)}\,=\,(-1)^{n-1}\dfrac{\Gamma{(-z)}\Gamma{(z+1)}}{\Gamma{(n+1-z)}},\,\,\, n \in \mathbb{Z}\,\,\,\]
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\setcounter{enumi}{4}
+\item
+  \textbf{Weierstrass's definition} :
+  \[\Huge \Gamma{(z)}\,=\dfrac{e^{-\gamma z}}{z}\prod_{n=1}^{\infty}\left(1+\dfrac{z}{n}\right)^{-1}\,\mathcal{e}^{z/n},\quad \text{where}\quad \gamma \approx \, 0.577216 \quad \,\,{ \text{is\, the \textbf{Euler–Mascheroni} constant.} }\]
+\item
+  \textbf{Legendre duplication formula} :\\
+  \[\Huge \Gamma{(z)}\Gamma{(z+\dfrac{1}{2})}\,=\,2^{1-2z}\sqrt{\pi}\,\Gamma{(2z)}\]
+\end{enumerate}
+
+\textbf{Properties of Gamma Function}
+
+\begin{itemize}
+\item
+  \[\Huge\Gamma{(z+1)}\,=\,z\Gamma{(z)} \implies \Gamma{(z)}\,=\,\dfrac{\Gamma{(z+1)}}{\large z}\]
+\item
+  \[\Huge \overline{\Gamma{(z)}}\,=\,\Gamma{(\overline{z})}\quad \implies \quad \Gamma{(z)}\Gamma{(\overline{z})} \in \mathbb{R} \]
+\item
+  \[\huge \Gamma{(\tfrac{1}{2})}\,=\,\sqrt{\pi} \]
+\item
+  \[\huge \text{For}\quad \Re(z) > 0,\quad \dfrac{d^{\,n}}{dz^{n}}\Gamma{(z)}\,=\,\int_{0}^{\infty}{t^{z-1}\,\mathcal{e}^{-t}(\log{t})^{n}dt} \]
+  \textbf{\emph{ψ Function Definition}}
+\end{itemize}
+
+\[\Huge \psi{(z)}\,=\,\dfrac{d}{dz}\ln \left(\Gamma{(z)}\right) \]
+
+    \subsubsection{Complex-valued functions as
+mappings}\label{complex-valued-functions-as-mappings}
+
+A complex-valued function
+\(\quad\mathcal{f}\,= \mathcal{u}+\mathcal{iv}\quad\) the mapping
+\(\quad F(x,y)\,=(\mathcal{u}(x,y),\mathcal{v}(x,y))\quad\) from
+\(\quad\mathbb{R}^{2}\,\to\,\mathbb{R}^2\)
+
+\(F\) is differentiable at point \(P_{0}\) if there exists a linear
+transformation
+
+\(J\,:\,\mathbb{R}^{2}\,\to\,\mathbb{R}^2\) such that
+\[ \dfrac{|F(P_{0}+H)-F(P_{0})-J(H)|}{|H|}\,\to 0 \quad \text{as}\,\,|H|\to 0,\,\,\,\,H\in\mathbb{R}^{2}\]
+which can be written as
+\[F(P_{0}+h)-F(P_{0})\,=\,J(H)+\,|H|\Psi(H)\quad \text{with}\quad |\Psi(H)|\to 0\quad \text{as}\,\,H\to 0\]
+
+Linear transformation \(\,J\,\) is unique and is called the derivative
+of \(\,\,F\,\,\) at \(\,\,P_{0}\)
+
+if \(F\) is defferntiable, the partial derivative of \(\,u\,\) and
+\(\,v\,\) exists.
+\[\huge J\,=\,J_{F}\left(x,\,y\right)\,=\begin{pmatrix}\quad \dfrac{\partial{u}}{\partial{x}}\quad &  \dfrac{\partial{u}}{\partial{y}} \\  \quad\dfrac{\partial{v}}{\partial{x}}\quad &  \quad\dfrac{\partial{v}}{\partial{y}}\quad \end{pmatrix}\]
+
+\subparagraph{Cauchy--Riemann equation}\label{cauchyriemann-equation}
+
+\[\huge \frac{\partial u}{\partial x}\,=\,\frac{\partial v}{\partial y},\quad \frac{\partial u}{\partial y}\,=\,-\frac{\partial v}{\partial x}\]
+
+or
+\[\huge \frac{\partial}{\partial z}\,=\,\frac{1}{2}\left(\frac{\partial}{\partial x}\,+\,\frac{1}{i}\frac{\partial}{\partial y}\right),\quad \frac{\partial}{\partial \overline{z}}\,=\,\frac{1}{2}\left(\frac{\partial}{\partial x}\,-\,\frac{1}{i}\frac{\partial}{\partial y}\right) \]
+
+By Using \textbf{\emph{Cauchy--Riemann equation}} we find the value of
+\(\large{f^{'}}(z)\)
+
+\(\large f(z+h)-f(z)\,=\,\left(\frac{\partial u}{\partial x} - i\frac{\partial u}{\partial y}\right)\left(h_{1}+i\,h_{2}\right)\,+|h|\psi{(h)}\quad\text{where}\quad\psi(h)\,=\,\psi(h1)+\psi(h2)\to 0,\,\,h\to 0 \quad \implies
+\,\,f^{'}(z)\,=\,2\frac{\partial u}{\partial z}\,=\,\frac{\partial f}{\partial z}\)
+\[\huge f^{'}(z)\,=\frac{\partial f}{\partial z}\]
+
+    \paragraph{Power Series}\label{power-series}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  The prime example of a power series is the complex
+  \textbf{exponential} function, which is defined for
+  \(\large \,\,z\in\mathbb{C}\)
+  \[\huge e^{z}\,=\,\sum_{n=0}^{\infty}{\frac{z^{n}}{n!}}\] note that
+  \[\Large \left|\frac{z^{n}}{n!}\right|\,=\frac{\left|z\right|^{n}}{n!}\]
+  \(\Large e^{z}\) is holomorphic in all of \(\,\mathbb{C}\,\)
+  \textbf{(it is entire)}.
+\end{enumerate}
+
+\textbf{Its derivative can be found by differentiating the series, term
+by term:}
+\[\Large\left(e^{z}\right)^{'}\,=\,\sum_{n=0}^{\infty}{n\dfrac{z^{n-1}}{n!}}\,=\,\sum_{m=0}^{\infty}{\frac{z^{m}}{m!}}\,=\,e^{z}\]
+
+In general, a power series is an expansion of the form:
+\[\Large\sum_{n=0}^{\infty}{a_{n}{z}^{n}}\] there exists a
+\(\large 0\le\,R\,\le\infty\) such that:
+
+\begin{itemize}
+\tightlist
+\item
+  if \(\large\,|z|<R\quad\) the series converges absolutely.
+\item
+  if \(\large\,|z|>R\quad\) the series diverges.
+\end{itemize}
+
+\(R\) is given from Hadamard's formula:
+\[\large 1/R\,=\,\lim{sup}\,|a_{n}|^{1/n}\]
+
+the \(\,\large R\,\) is called the \textbf{radius of convergence} of the
+power series, and the \textbf{region} \$
+\large,\textbar z\textbar\textless R\quad\$ the disk of convergence.
+\(\quad\large R\,=\,\infty\quad\) in exponential functions and
+\(\large R\,=\,1\,\,\) in geometric series.
+
+\[f(z)\,=\,\sum_{n=0}^{\infty}{a_{n}z^{n}}\quad\text{is a holomorphic function in its disk of convergence and the derivatives of the}\,\,f(z)\quad \text{have the same radius of convergence as}\,\,f(z)\]
+
+\textbf{A power series is infinitely complex-differentiable in its disk
+of convergence}
+
+a power series centered at \(\,z_{0}\in\mathbb{C}\,\) is an expression
+of form:
+\[\Large f(z)\,=\,\sum_{n=0}^{\infty}{a_{n}\left(z-z_{0}\right)^{n}}\] a
+function defined on an open set \(\Omega\) is said to be
+\textbf{analytic} at a point \(\,z_{0}\in\mathbb{C}\,\) if there exists
+a power series \(\,\sum{a_{n}(z-z_{0})^{n}}\,\) centered at
+\(\,z_{0}\,\) with positive radius of convergence (\(R\)) such that
+\[\Large f(z)\,=\,\sum_{n=0}^{\infty}{a_{n}(z-z_{0})^{n}}\quad\text{for all}\,\,z\,\,\text{in a neighborhood of}\,\,z_{0}\]
+if\(\,\,f\,\,\)has a power series expansion at every point in
+\(\large\Omega\,\), then \(f\) is \textbf{analytic} on \(\large\Omega\)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{55}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{import}\PY{+w}{ }\PY{n}{GLMakie}
+\PY{k}{using}\PY{+w}{ }\PY{n}{GLMakie}
+\PY{n}{f}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{GLMakie}\PY{o}{.}\PY{n}{Figure}\PY{p}{(}\PY{n}{size}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{(}\PY{l+m+mi}{800}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{300}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{ax}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{GLMakie}\PY{o}{.}\PY{n}{PolarAxis}\PY{p}{(}\PY{n}{f}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{+w}{ }\PY{n}{title}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{sin(z)}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{n}{theta\PYZus{}as\PYZus{}x}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n+nb}{false}\PY{p}{)}
+\PY{n}{lineobject}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{GLMakie}\PY{o}{.}\PY{n}{lines!}\PY{p}{(}\PY{n}{ax}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{0}\PY{o}{..}\PY{l+m+mi}{2}\PY{n+nb}{pi}\PY{p}{,}\PY{+w}{ }\PY{n}{sinh}\PY{p}{,}\PY{+w}{ }\PY{n}{color}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s+ss}{:red}\PY{p}{,}\PY{p}{)}
+
+\PY{n}{ax}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{GLMakie}\PY{o}{.}\PY{n}{PolarAxis}\PY{p}{(}\PY{n}{f}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}\PY{+w}{ }\PY{n}{title}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{cos(z)}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{+w}{ }\PY{n}{theta\PYZus{}as\PYZus{}x}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n+nb}{false}\PY{p}{)}
+\PY{n}{lineobject}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{GLMakie}\PY{o}{.}\PY{n}{lines!}\PY{p}{(}\PY{n}{ax}\PY{p}{,}\PY{l+m+mi}{0}\PY{o}{..}\PY{l+m+mi}{2}\PY{n+nb}{pi}\PY{p}{,}\PY{+w}{ }\PY{n}{cosh}\PY{p}{,}\PY{+w}{ }\PY{n}{color}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s+ss}{:orange}\PY{p}{)}
+
+\PY{n}{ax}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{GLMakie}\PY{o}{.}\PY{n}{PolarAxis}\PY{p}{(}\PY{n}{f}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,}\PY{+w}{ }\PY{n}{title}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s+sa}{L}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{l+s}{\PYZbs{}}\PY{l+s}{mathcal\PYZob{}e\PYZcb{}\PYZca{}\PYZob{}z\PYZcb{}}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{,}\PY{+w}{ }\PY{n}{theta\PYZus{}as\PYZus{}x}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n+nb}{false}\PY{p}{)}
+\PY{n}{ez}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{z}\PY{+w}{ }\PY{o}{\PYZhy{}\PYZgt{}}\PY{+w}{ }\PY{n}{exp}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{\PYZca{}}\PY{n}{z}
+\PY{n}{lineobject}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{GLMakie}\PY{o}{.}\PY{n}{lines!}\PY{p}{(}\PY{n}{ax}\PY{p}{,}\PY{l+m+mi}{0}\PY{o}{..}\PY{l+m+mi}{2}\PY{n+nb}{pi}\PY{p}{,}\PY{+w}{ }\PY{n}{ez}\PY{p}{,}\PY{+w}{ }\PY{n}{color}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s+ss}{:blue}\PY{p}{)}
+\PY{n}{f}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{55}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_25_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    \subsubsection{Integration along curves}\label{integration-along-curves}
+
+    \paragraph{Parameterized Curve}\label{parameterized-curve}
+
+A function \(\,\mathcal{z}(t)\,\) that \textbf{maps a closed interval}
+\(\left[a,b\right]\,\in \mathbb{R}\,\) to a \textbf{complex plane}.
+
+\paragraph{Smooth Curve}\label{smooth-curve}
+
+If \(\,\mathcal{z^{'}}(t)\,\) exists and is continues on
+\(\left[a,b\right],\,\mathcal{z^{'}}(t)\,\ne 0\,\,\) for
+\(\,\,t\,\in\,\left[a,b\right]\,\)
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\item
+  \(t\,=\,a\) : left-sided limit
+  \(\,\,\mathcal{z^{'}}(a)\,=\,\lim_{\underset{h>0}{h\to 0}}{\dfrac{\mathcal{z}(a+h)-\mathcal{z}(a)}{h}}\,\,\)
+\item
+  \(t\,=\,b\) : right-sided limit
+  \(\,\,\mathcal{z^{'}}(b)\,=\,\lim_{\underset{h<0}{h\to 0}}{\dfrac{\mathcal{z}(b+h)-\mathcal{z}(b)}{h}}\,\,\)
+\end{enumerate}
+
+\paragraph{Piecewise-smooth Curve}\label{piecewise-smooth-curve}
+
+if \(\,\mathcal{z}\,\) is continues on \(\left[a,b\right]\,\) and if
+there exists points:\[a=a_{0}<a_{1}<a_{2}<\cdots<a_{n}=b\] where
+\(\,\mathcal{z}(t)\) is smooth in the intervals
+\(\,\left[a_{k},a_{k+1}\right]\,\) and \(a_{k}\) right-sided limit may
+differ from left-sided
+
+\paragraph{Two Parameterization
+Equality}\label{two-parameterization-equality}
+
+\[ \mathcal{z}\,:\,\left[a,b\right]\to \mathbb{C},\,\,\mathcal{\overline{z}}\,:\,\left[c,d\right]\to \mathbb{C}\]
+If there exists a continuously differentiable bijection
+\(\,s\mapsto\,t(s)\,\, \text{from}\,\,\left[c,d\right]\,\,\text{to}\,\,\left[a,b\right],\,\,t^{'}(s)>0\)
+\[ \mathcal{\overline{z}}(s)\,=\,\mathcal{z}(t(s)) \]
+
+    \paragraph{γ Curve}\label{ux3b3-curve}
+
+\(\large\gamma\,\) is a smooth curved in \(\mathbb{C}\,\) (image of
+\(\left[a,b\right]\,\)) under \(\mathcal{z}\) with \(\mathcal{z}\)
+orientation, where \(\,t\,\) travels from \(a\) to \(b\)
+
+\(\large\gamma^{\overline{}}\,\) is reversed oriented \(\large\gamma\)
+
+\(\large\gamma\,\) begins at \(\,\mathcal{z}(a)\,\) and ends at
+\(\,\mathcal{z}(b)\)
+
+\(\Large\mathcal{z^{\overline{}}}\,:\,\left[a,b\right]\,\mapsto\mathbb{R}^{2}\)
+\[\large\implies\,\mathcal{z^{\overline{}}}(t)\,=\,\mathcal{z}(b+a-t)\]
+
+\paragraph{Closed Curve}\label{closed-curve}
+
+Definition: if \(\,\mathcal{z}(a)\,=\mathcal{z}(b)\,\) for every its
+\textbf{parameterizations}.
+
+\paragraph{Simple Curve}\label{simple-curve}
+
+if
+\(\mathcal{z}(t)\ne\mathcal{z}(s)\,\,\text{unless}\,\,t=s\,\,\,\text{or}\,\,\, s=a,\,\,\ \text{and}\,\,\,t=b\)
+
+if \(f(\mathcal{z})\,\) is a \textbf{holomorphic} function in the
+interior of a \textbf{closed curved} \(\gamma\) then:
+\[ \int_{\gamma}{f(\mathcal{z})\,\mathcal{dz}}\,=\,0\]
+
+    \paragraph{Integral of f along γ}\label{integral-of-f-along-ux3b3}
+
+Given a smooth curved \(\gamma\) in \(\,\mathbb{C}\,\) parameterized by
+\(\,\mathcal{z}\,:\,\left[a,b\right]\to \mathbb{C}\,\,\) and \(f\) a
+continuous function on \(\gamma\),
+\[\large \int_{\gamma}{f(\mathcal{z})\,\mathcal{dz}}\,=\,\int_{a}^{b}{f\left(\mathcal{z}\left(t\right)\right)\,z^{'}(t)\,\mathcal{dt}}\]
+
+\paragraph{Piecewise-Smooth Integral}\label{piecewise-smooth-integral}
+
+\[\large \int_{\gamma}{f(\mathcal{z})\,\mathcal{dz}}\,=\,\sum_{k=0}^{n-1}{{\int_{a_{k}}^{a_{k+1}}{f\left(\mathcal{z}\left(t\right)\right)\,z^{'}(t)\,\mathcal{dt}}}}\]
+
+\paragraph{Length of a smooth curve}\label{length-of-a-smooth-curve}
+
+\[\Large length(\gamma)\,=\,\int_{a}^{b}{\left|\mathcal{z}^{'}\left(t\right)\right|\,\mathcal{dt}} \]
+
+\paragraph{Integration along Curve
+Properties}\label{integration-along-curve-properties}
+
+\begin{enumerate}
+\def\labelenumi{\roman{enumi})}
+\tightlist
+\item
+  Its linear,that is, if \(\alpha,\beta\,\in\mathbb{C}\) then:
+  \[\Large\int_{\gamma}{\left(\alpha f(z)\,+\,\beta g(z)\right)\,dz}\,=\,\alpha\int_{\gamma}{f(z)\,dz}\,+\,\beta\int_{\gamma}{g(z)\,dz}\]
+\item
+  if \(\gamma^{\overline{}}\,\)is\(\,\gamma\,\) with reverse orientation
+  then:
+  \[\Large\int_{\gamma}{f(z)\,dz}\,=\,-\int_{\gamma^{-}}{f(z)\,dz}\]
+\item
+  One has the inequality :
+  \[\left|\int_{\gamma}{f(z)\,dz}\right|\,\le\,sup{\underset{z\in\gamma}{}\left|f(z)\right|\times length(\gamma)} \]
+  if a continuous function \(f\) has a primitive \(F\) in \(\Omega\,\)
+  and \(\gamma\) is a curve in \(\Omega\) that begins at \(w_{1}\) and
+  ends at \(w_{2}\), then:
+  \[\Large \int_{\gamma}{f(z)\,dz}\,=\,F(w_{2})-F(w_{1})\]
+\end{enumerate}
+
+if \(\gamma\) is a closed curve in \(\Omega\) and \(f\) is continuous
+and has a primitive in \(\Omega\),then:
+\[\Large\int_{\gamma}{f(z)\,dz}=0 \]
+
+Since \(\mathcal{C}\) is a \textbf{unit circle} parameterized by
+\(\large\,\mathcal{z}(t)\,=\,\mathcal{e}^{it},\,\,0\le t\le 2\pi\)
+\[\Huge \implies\, \int_{C}{f(z)\,dz}\,=\,\int_{0}^{2\pi}{\frac{ie^{it}}{e^{it}}\,dt}\,=\,2\pi i\,\ne 0\]
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}

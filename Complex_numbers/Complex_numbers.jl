@@ -9,7 +9,7 @@ z̄=conj(z)
 
 abs2(z)
 
-
+using Plots
 using LaTeXStrings
 
 println("Demonstration of Polar form if a Complex number")

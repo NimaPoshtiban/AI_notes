@@ -1,0 +1,890 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{vectors}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{Vectors}\label{vectors}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{import}\PY{+w}{ }\PY{n}{Pkg}
+\PY{k}{using}\PY{+w}{ }\PY{n}{Plots}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{rowVec}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{[}\PY{l+m+mi}{1}\PY{+w}{ }\PY{l+m+mi}{2}\PY{+w}{ }\PY{l+m+mi}{3}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+1×3 Matrix\{Int64\}:
+ 1  2  3
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{colVec}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{;}\PY{l+m+mi}{2}\PY{p}{;}\PY{l+m+mi}{3}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+3-element Vector\{Int64\}:
+ 1
+ 2
+ 3
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{sumVec}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{rowVec}\PY{o}{+}\PY{n}{colVec}\PY{o}{\PYZsq{}}\PY{+w}{ }\PY{c}{\PYZsh{} transposing colVec}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+1×3 Matrix\{Int64\}:
+ 2  4  6
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{x}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1000}\PY{p}{,}\PY{l+m+mi}{2000}\PY{p}{)}
+\PY{n}{avg\PYZus{}vec}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{sumVec}\PY{+w}{ }\PY{o}{*}\PY{l+m+mf}{.5}\PY{+w}{ }\PY{c}{\PYZsh{} average of two scalar vectors}
+\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{o}{*}\PY{n}{avg\PYZus{}vec}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{6}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_0.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    \subsection{Vector Operations}\label{vector-operations}
+
+    \subsubsection{Vector norm}\label{vector-norm}
+
+\[\|v\| = \sqrt{\sum_{i=1}^{n}{{\upnu_{i}^{2}}}}\]
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{import}\PY{+w}{ }\PY{n}{LinearAlgebra}
+\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{sumVec}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+7.483314773547883
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \paragraph{A unit Vector}\label{a-unit-vector}
+
+\[\hat{v} = \frac{1}{\|v\|}\cdot v \] example: {[}3{]}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for}\PY{+w}{ }\PY{n}{i}\PY{+w}{ }\PY{k}{in}\PY{+w}{ }\PY{l+m+mi}{1}\PY{o}{:}\PY{l+m+mi}{3}
+\PY{+w}{    }\PY{n}{print}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{v unit[}\PY{l+s+si}{\PYZdl{}i}\PY{l+s}{]= }\PY{l+s}{\PYZdq{}}\PY{p}{)}
+\PY{+w}{    }\PY{n}{println}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{sumVec}\PY{p}{)}\PY{o}{*}\PY{n}{sumVec}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+\PY{k}{end}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+v unit[1]= 0.2672612419124244
+v unit[2]= 0.5345224838248488
+v unit[3]= 0.8017837257372732
+    \end{Verbatim}
+
+    \paragraph{Vector dot product (inner
+product)}\label{vector-dot-product-inner-product}
+
+this is how it is shown: \[\textlangle a,\,b\textrangle\] or it can be
+shown as \[a\cdot b\] The equation for Dot product formula:
+\[\delta\,=\,\sum_{i=1}^{n}{a_{i}b_{i}}\]
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{v1}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{[}\PY{l+m+mi}{1}\PY{+w}{ }\PY{l+m+mi}{2}\PY{+w}{ }\PY{l+m+mi}{3}\PY{+w}{ }\PY{l+m+mi}{4}\PY{p}{]}\PY{+w}{ }
+\PY{n}{v2}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{[}\PY{+w}{ }\PY{l+m+mi}{5}\PY{+w}{ }\PY{l+m+mi}{6}\PY{+w}{ }\PY{l+m+mi}{7}\PY{+w}{ }\PY{l+m+mi}{8}\PY{p}{]}
+\PY{n}{product}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{v1}\PY{p}{,}\PY{n}{v2}\PY{p}{)}
+\PY{n}{println}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s+si}{\PYZdl{}v1}\PY{l+s}{ . }\PY{l+s+si}{\PYZdl{}v2}\PY{l+s}{ = }\PY{l+s+si}{\PYZdl{}product}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[1 2 3 4] . [5 6 7 8] = 70
+    \end{Verbatim}
+
+    The dot product is distributive
+\[ a^{T}\left(b\,+\,c\right) = a^{T}b + a^{T}c\]
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{v3}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{[}\PY{+w}{ }\PY{l+m+mi}{0}\PY{+w}{ }\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{+w}{ }\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{+w}{ }\PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{]}
+\PY{n}{res1}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{v1}\PY{p}{,}\PY{n}{v2}\PY{o}{+}\PY{n}{v3}\PY{p}{)}
+\PY{n}{res2}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{v1}\PY{p}{,}\PY{n}{v2}\PY{p}{)}\PY{o}{+}\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{v1}\PY{p}{,}\PY{n}{v3}\PY{p}{)}
+\PY{n}{res1}\PY{+w}{ }\PY{o}{==}\PY{+w}{ }\PY{n}{res2}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+true
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \paragraph{Vector Geometry of dot
+product}\label{vector-geometry-of-dot-product}
+
+\[ \alpha = cos(\theta_{v,w}) \|v\| \|w\| \]
+\[ \theta \,\,\,\, \text{is the angle between v and w vectors} \] it is
+the same as the previous formula!
+
+note: the dot product of orthogonal vectors is 0
+
+    \paragraph{Hadamard Multiplication}\label{hadamard-multiplication}
+
+\[ \left[\begin{matrix}
+    5 \\
+    4 \\
+    8 \\
+    2 \end{matrix}\right]\, \odot \,\left[\begin{matrix}
+    1 \\
+    0 \\
+    0.5 \\
+    -1 \end{matrix}\right] \,=\, \left[\begin{matrix}
+    5 \\
+    0 \\
+    4 \\
+    -2 \end{matrix}\right] \]
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for}\PY{+w}{ }\PY{n}{i}\PY{+w}{ }\PY{k}{in}\PY{+w}{ }\PY{l+m+mi}{1}\PY{o}{:}\PY{l+m+mi}{3}
+\PY{+w}{    }\PY{n}{hmresult}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{v1}\PY{o}{\PYZsq{}}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{+w}{ }\PY{o}{*}\PY{+w}{ }\PY{n}{v2}\PY{p}{[}\PY{n}{i}\PY{p}{]}
+\PY{+w}{    }\PY{n}{println}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s+si}{\PYZdl{}}\PY{p}{(}\PY{n}{v1}\PY{o}{\PYZsq{}}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{l+s}{ ⊙ }\PY{l+s+si}{\PYZdl{}}\PY{p}{(}\PY{n}{v2}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{l+s}{ = }\PY{l+s+si}{\PYZdl{}hmresult}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+\PY{k}{end}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+1 ⊙ 5 = 5
+2 ⊙ 6 = 12
+3 ⊙ 7 = 21
+    \end{Verbatim}
+
+    \subsubsection{Outer Vector Product}\label{outer-vector-product}
+
+is show as \[ v\,w^{T}\] \[\left[ \begin{matrix}
+a \\
+b \\ 
+c
+\end{matrix} \right] \left[ \begin{matrix} 
+d&e
+\end{matrix} \right]\, = \left[\begin{matrix}
+ad & ae \\
+bd & be \\
+cd & ce
+\end{matrix}\right]\]
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{result}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{v1}\PY{+w}{ }\PY{o}{*}\PY{+w}{ }\PY{n}{v1}\PY{o}{\PYZsq{}}\PY{+w}{ }
+\PY{n}{println}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s+si}{\PYZdl{}v1}\PY{l+s}{ x }\PY{l+s+si}{\PYZdl{}}\PY{p}{(}\PY{n}{v1}\PY{o}{\PYZsq{}}\PY{p}{)}\PY{l+s}{ = }\PY{l+s+si}{\PYZdl{}result}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+\PY{n}{result}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[1 2 3 4] x [1; 2; 3; 4;;] = [30;;]
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+1×1 Matrix\{Int64\}:
+ 30
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \paragraph{Vector Cross Product
+(extra)}\label{vector-cross-product-extra}
+
+The cross product is defined by the formula \[
+a
+×
+b
+=
+‖
+a
+‖
+‖
+b
+‖
+sin
+⁡
+(
+θ
+)
+n
+,
+ \] where
+
+θ is the angle between a and b in the plane containing them (hence, it
+is between 0° and 180°), ‖a‖ and ‖b‖ are the magnitudes of vectors a and
+b, n is a unit vector perpendicular to the plane containing a and b,
+with direction such that the ordered set (a, b, n) is positively
+oriented. If the vectors a and b are parallel (that is, the angle θ
+between them is either 0° or 180°), by the above formula, the cross
+product of a and b is the zero vector 0.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{vc}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{;}\PY{l+m+mi}{0}\PY{p}{;}\PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{vc2}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{;}\PY{l+m+mi}{0}\PY{p}{;}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{cross}\PY{p}{(}\PY{n}{vc}\PY{p}{,}\PY{n}{vc2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+3-element Vector\{Int64\}:
+  0
+ -1
+  0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \paragraph{Orthogonal Projection}\label{orthogonal-projection}
+
+\[ \beta = \frac{\textlangle a^{T},\,b\textrangle}{\textlangle a^{T},\,a\textrangle} \]
+Minimum distance for projection between two vectors
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{β}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{v1}\PY{o}{\PYZsq{}}\PY{p}{,}\PY{n}{v2}\PY{p}{)}\PY{+w}{ }\PY{o}{/}\PY{+w}{ }\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{v1}\PY{o}{\PYZsq{}}\PY{p}{,}\PY{n}{v1}\PY{p}{)}
+\PY{n}{println}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{β = }\PY{l+s+si}{\PYZdl{}β}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+β = 2.3333333333333335
+    \end{Verbatim}
+
+    \paragraph{Computing the parallel
+component}\label{computing-the-parallel-component}
+
+t is a vector\\
+r is a decomposition vector extracted from the t vector\\
+Subtracting off parallel components from the original vector results in
+perpendicular component
+\[ t_{\|r} = r\cdot\,\left(\,\frac{\textlangle t^{T},\,r\textrangle}{\textlangle r^{T},\,r\textrangle}\right) \]
+\[ t = t_{\perp r} + t_{\| r} \] \[ t_{\perp r} = t - t_{\| r}\] thus
+the perpendicular component is orthogonal to the reference vector
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{parallelcomponent}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{v1}\PY{+w}{ }\PY{o}{*}\PY{+w}{ }\PY{p}{(}\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{v2}\PY{o}{\PYZsq{}}\PY{p}{,}\PY{n}{v1}\PY{p}{)}\PY{+w}{ }\PY{o}{/}\PY{+w}{ }\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{v1}\PY{p}{,}\PY{n}{v1}\PY{o}{\PYZsq{}}\PY{p}{)}\PY{p}{)}
+\PY{n}{perpendicular}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{v2}\PY{+w}{ }\PY{o}{\PYZhy{}}\PY{+w}{ }\PY{n}{parallelcomponent}
+
+\PY{n}{println}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{t⟂r = }\PY{l+s+si}{\PYZdl{}perpendicular}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plot}\PY{p}{(}\PY{n}{v2}\PY{o}{.*}\PY{n}{x}\PY{p}{,}\PY{n}{line}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{(}\PY{l+s+ss}{:steppre}\PY{p}{,}\PY{+w}{ }\PY{l+s+ss}{:dot}\PY{p}{,}\PY{l+s+ss}{:arrow}\PY{p}{,}\PY{+w}{ }\PY{l+m+mf}{0.5}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{1}\PY{p}{,}\PY{+w}{ }\PY{l+s+ss}{:grey}\PY{p}{)}\PY{p}{,}\PY{n}{xlabel}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{x}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{v⃗1 [1] }\PY{l+s}{\PYZdq{}}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{v⃗1 [2] }\PY{l+s}{\PYZdq{}}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{v⃗1 [3]}\PY{l+s}{\PYZdq{}}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{v⃗1 [4]}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{p}{,}\PY{n}{font}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,}\PY{p}{)}\PY{+w}{ }\PY{p}{)}
+\PY{n}{plot!}\PY{p}{(}\PY{n}{parallelcomponent}\PY{o}{.*}\PY{n}{x}\PY{p}{,}\PY{n}{line}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{(}\PY{l+s+ss}{:steppre}\PY{p}{,}\PY{l+s+ss}{:dot}\PY{p}{,}\PY{+w}{ }\PY{l+s+ss}{:arrow}\PY{p}{,}\PY{+w}{ }\PY{l+m+mf}{0.5}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{1}\PY{p}{,}\PY{+w}{ }\PY{l+s+ss}{:green}\PY{p}{)}\PY{p}{,}\PY{n}{xlabel}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{x}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{parallelcomponent⃗ [1]}\PY{l+s}{\PYZdq{}}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{parallelcomponent⃗ [2]}\PY{l+s}{\PYZdq{}}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{parallelcomponent⃗ [3]}\PY{l+s}{\PYZdq{}}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{parallelcomponent⃗ [4]}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plot!}\PY{p}{(}\PY{n}{perpendicular}\PY{o}{.*}\PY{n}{x}\PY{p}{,}\PY{n}{line}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{(}\PY{l+s+ss}{:steppre}\PY{p}{,}\PY{+w}{ }\PY{l+s+ss}{:dot}\PY{p}{,}\PY{+w}{ }\PY{l+s+ss}{:arrow}\PY{p}{,}\PY{+w}{ }\PY{l+m+mf}{0.5}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{1}\PY{p}{,}\PY{+w}{ }\PY{l+s+ss}{:blue}\PY{p}{)}\PY{p}{,}\PY{n}{xlabel}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{x}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{p}{[}\PY{l+s}{\PYZdq{}}\PY{l+s}{perpendicular⃗ [1] }\PY{l+s}{\PYZdq{}}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{perpendicular⃗ [2] }\PY{l+s}{\PYZdq{}}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{perpendicular⃗ [3]}\PY{l+s}{\PYZdq{}}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{perpendicular⃗ [4]}\PY{l+s}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+t⟂r = [2.6666666666666665 1.333333333333333 0.0 -1.333333333333334]
+    \end{Verbatim}
+ 
+            
+\prompt{Out}{outcolor}{15}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_25_1.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    \paragraph{Linear weighted
+combination}\label{linear-weighted-combination}
+
+\[ w = \lambda_{1} v_{1} + \lambda_{2}v_{2} + . . . + \lambda_{n}v_{n} \]
+All vectors must have the same dimensionality \[ \lambda_{s}  \in \Re \]
+
+    λ1 = pi λ2 = exp(1) w = λ1\emph{v1 + λ2 } v2' println(``w = \$w'')
+
+    \paragraph{Linear Independence set}\label{linear-independence-set}
+
+Definition: A set of vectors is linearly dependent if at least one
+vector in the set can be expressed as a linear weighted combination of
+other vectors in that set otherwise it is a linearly independent set
+
+If the equation blow has an answer the Set is a Dependent Set
+
+\[
+0 = \lambda_{1} v_{1} + \lambda_{2} v_{2} + . . .  + \lambda_{n} v_{n} ,  \lambda \in \Re , \lambda \ne 0
+\]
+
+    \subparagraph{Example of a Linear Independent
+set}\label{example-of-a-linear-independent-set}
+
+\[ V = \left\{ { \left[ 
+\begin{matrix}
+1 \\
+3 
+\end{matrix}
+\right] \, , \, \left[\begin{matrix}
+2 \\ 7 \end{matrix}\right] }\right\}\]
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{V}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{;}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{7}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+([1, 3], [2, 7])
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subparagraph{Example of a Linear dependent
+set}\label{example-of-a-linear-dependent-set}
+
+\[ S = \left\{ { \left[ 
+\begin{matrix}
+1 \\
+3 
+\end{matrix}
+\right] \, , \, \left[\begin{matrix}
+2 \\ 6 \end{matrix}\right] }\right\}\] because we can express the second
+vector in the set using Linear Weighted Coefficent vice-versa:
+\[ \lambda_{1} = 2 \] \[ v_{2} = \lambda_{1} v_{1} \] Or
+\[ \lambda_{2} = 0.5 \] \[ v_{1} = \lambda_{2} v_{2} \]
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{S}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{;}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{;}\PY{l+m+mi}{6}\PY{p}{]}\PY{p}{)}
+\PY{n}{λ}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+m+mi}{2}
+\PY{n}{S}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.*}\PY{+w}{ }\PY{n}{λ}\PY{+w}{ }\PY{o}{==}\PY{+w}{  }\PY{n}{S}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+\PY{n}{println}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{λv1 = v2}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+λv1 = v2
+    \end{Verbatim}
+
+    \subsubsection{Normalizations}\label{normalizations}
+
+    \paragraph{Correlation}\label{correlation}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  Mean Center the variables :\[ x_{i} - \bar{x}\]
+\item
+  Divide the dot product by the product of the vector norms \#\#\#\#
+  Pearson correlation coefficient \[
+  \rho = \frac{\sum_{i=1}^{n} \left( x_{i} - \bar{x} \right) \left( y_{i} - \bar{y} \right)}{\sqrt{\sum_{i=1}^{n} \left( x_{i} - \bar{x} \right)^{2}} \sqrt{\sum_{i=1}^{n} \left( y_{i} - \bar{y} \right)^{2}}} \]
+  It can also be expressed in the parlance of linear algebra
+  \[ \rho = \frac{\tilde{x}^{T}\tilde{y}}{\|\tilde{x}\|\,\,\,\,\|\tilde{y}\|},\,\,\,\,\,\,  where \,\,\tilde{x}\,\,is\,\,the\,\,mean-centered\,\,\,version\,\,of\,\, x\]
+  The correlation coefficient ranges from −1 to 1
+\end{enumerate}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{79}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{import}\PY{+w}{  }\PY{n}{Statistics}
+\PY{n}{v1\PYZus{}mean}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{Statistics}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{v1}\PY{p}{)}
+\PY{n}{v1\PYZus{}meancentered}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{map}\PY{p}{(}\PY{n}{x}\PY{o}{\PYZhy{}\PYZgt{}}\PY{n}{x}\PY{o}{\PYZhy{}}\PY{n}{v1\PYZus{}mean}\PY{p}{,}\PY{n}{v1}\PY{p}{)}
+\PY{n}{v2\PYZus{}mean}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{Statistics}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{v2}\PY{p}{)}
+\PY{n}{v2\PYZus{}meancentered}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{map}\PY{p}{(}\PY{n}{x}\PY{o}{\PYZhy{}\PYZgt{}}\PY{n}{x}\PY{o}{\PYZhy{}}\PY{n}{v2\PYZus{}mean}\PY{p}{,}\PY{n}{v2}\PY{p}{)}
+\PY{n}{ρ}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{v1\PYZus{}meancentered}\PY{o}{\PYZsq{}}\PY{p}{,}\PY{n}{v2\PYZus{}meancentered}\PY{p}{)}\PY{+w}{ }\PY{o}{/}\PY{+w}{ }\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{v1\PYZus{}meancentered}\PY{p}{)}\PY{p}{,}\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{v2\PYZus{}meancentered}\PY{p}{)}\PY{p}{)}
+\PY{n}{println}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Pearson correlation coefficient = }\PY{l+s+si}{\PYZdl{}ρ}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Pearson correlation coefficient = 0.9999999999999998
+    \end{Verbatim}
+
+    \paragraph{Cosine Similarity}\label{cosine-similarity}
+
+\[ cos\left(\theta_{x\,,y}\right) = \frac{\alpha}{\|x\|\,\,\,\,\|y\|}\]
+Where α is the dot product between x and y.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{84}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{α}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{v1}\PY{p}{,}\PY{n}{v2}\PY{p}{)}\PY{o}{/}\PY{+w}{ }\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{v1}\PY{p}{)}\PY{p}{,}\PY{n}{LinearAlgebra}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{v2}\PY{p}{)}\PY{p}{)}
+\PY{n}{println}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Cosine Similarity = }\PY{l+s+si}{\PYZdl{}α}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Cosine Similarity = 0.9688639316269662
+    \end{Verbatim}
+
+    \paragraph{reminder of Euclidian distance
+formula}\label{reminder-of-euclidian-distance-formula}
+
+\[ \delta_{i\,,\,j} = \sqrt{\left(a_{i}^{x} - b_{j}^{x}\right)^{2} + \left(a_{i}^{y} - b_{j}^{y}\right)^{2}} \]
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{88}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{a1}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{[}\PY{l+m+mi}{0}\PY{+w}{ }\PY{l+m+mi}{10}\PY{p}{]}
+\PY{n}{b1}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{p}{[}\PY{l+m+mi}{9}\PY{+w}{ }\PY{l+m+mi}{3}\PY{p}{]}
+\PY{n}{distance}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{sqrt}\PY{p}{(}\PY{p}{(}\PY{n}{a1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{b1}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{o}{\PYZca{}}\PY{l+m+mi}{2}\PY{+w}{ }\PY{o}{+}\PY{p}{(}\PY{n}{a1}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{b1}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{o}{\PYZca{}}\PY{l+m+mi}{2}\PY{+w}{ }\PY{p}{)}
+\PY{n}{println}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{Distance between the two 1x2 vectors is }\PY{l+s+si}{\PYZdl{}distance}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Distance between the two 1x2 vectors is 11.40175425099138
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
