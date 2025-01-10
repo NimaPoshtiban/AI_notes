@@ -1,0 +1,910 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Cauchy\_theorem}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c}{\PYZsh{}\PYZsh{}\PYZsh{} A Pluto.jl notebook \PYZsh{}\PYZsh{}\PYZsh{}}
+\PY{c}{\PYZsh{} v0.20.3}
+\PY{c}{\PYZsh{}\PYZgt{} [frontmatter]}
+\PY{c}{\PYZsh{}\PYZgt{} title = \PYZdq{}Cauchy Theorem\PYZdq{}}
+\PY{c}{\PYZsh{}\PYZgt{} date = \PYZdq{}2025\PYZhy{}01\PYZhy{}09\PYZdq{}}
+\PY{c}{\PYZsh{}\PYZgt{} tags = [\PYZdq{}Complex\PYZdq{}, \PYZdq{}analysis\PYZdq{}, \PYZdq{}cauchy\PYZdq{}, \PYZdq{}julia\PYZdq{}]}
+\PY{c}{\PYZsh{}\PYZgt{} description = \PYZdq{}Complex Analysic notes\PYZdq{}}
+\PY{c}{\PYZsh{}\PYZgt{} }
+\PY{c}{\PYZsh{}\PYZgt{}     [[frontmatter.author]]}
+\PY{c}{\PYZsh{}\PYZgt{}     name = \PYZdq{}Nima Poshitban\PYZdq{}}
+\PY{k}{using}\PY{+w}{ }\PY{n}{Markdown}
+\PY{k}{using}\PY{+w}{ }\PY{n}{InteractiveUtils}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{begin}
+\PY{+w}{	}\PY{k}{using}\PY{+w}{ }\PY{n}{PlutoExtras}
+\PY{+w}{    }\PY{k}{import}\PY{+w}{ }\PY{n}{Pkg}
+\PY{+w}{    }\PY{c}{\PYZsh{} careful: this is \PYZus{}not\PYZus{} a reproducible environment}
+\PY{+w}{    }\PY{c}{\PYZsh{} activate the global environment}
+\PY{+w}{    }\PY{n}{Pkg}\PY{o}{.}\PY{n}{activate}\PY{p}{(}\PY{p}{)}
+\PY{+w}{    }\PY{k}{import}\PY{+w}{ }\PY{n}{GLMakie}
+\PY{+w}{	}\PY{k}{using}\PY{+w}{ }\PY{n}{LaTeXStrings}
+\PY{k}{end}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\textcolor{ansi-green-intense}{\textbf{  Activating}} project at
+`C:\textbackslash{}Users\textbackslash{}nima\textbackslash{}.julia\textbackslash{}environments\textbackslash{}v1.11`
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{initialize\PYZus{}eqref}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="s
+ha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn"
+crossorigin="anonymous">
+
+<style>
+a.eq\_href \{
+        text-decoration: none;
+\}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integr
+ity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx"
+crossorigin="anonymous"></script>
+
+<script id="katex-eqnum-script">
+
+
+const a\_vec = [] // This will hold the list of a tags with custom click, used
+for cleaning listeners up upon invalidation
+
+const eqrefClick = (e) => \{
+        e.preventDefault() // This prevent normal scrolling to link
+        const a = e.target
+        const eq\_id = a.getAttribute('eq\_id')
+        const eq = document.getElementById(eq\_id)
+        history.pushState(\{\},'') // This is to allow going back to the previous
+position in the page after scroll with History Back
+        eq.scrollIntoView(\{
+                behavior: 'smooth',
+                block: 'center',
+        \})
+\}
+
+// We make a function to compute the vertical offset (from the top) of an object
+to the
+// closest parent containing the katex-html class. This is used to find the
+equation number
+// that is closest to the label
+const findOffsetTop = obj => \{
+        let offset = 0
+        let keepGoing = true
+        while (keepGoing) \{
+                offset += obj.offsetTop
+                // Check if the current offsetParent is the containing katex-
+html
+                if (obj.offsetParent.classList.contains('katex-html')) \{
+                        keepGoing = false
+                \} else \{
+                        obj = obj.offsetParent
+                \}
+        \}
+        return offset
+\}
+
+
+// The katex equation numbers are wrapped in spans containing the class 'eqn-
+num'. WHen you
+// assign a label, another class ('enclosing') is assigned to some parts of the
+rendered
+// html containing the equation line. This means that equation containing labels
+will have
+// both 'eqn-num' and 'enclosing'. The new approach is to go through all the
+katex math
+// equations one by one and analyze how many numbered lines they contain by
+counting the
+// 'eqn-num' instances.
+const updateCallback = () => \{
+a\_vec.splice(0,a\_vec.length) // Reset the array
+const katex\_blocks = document.querySelectorAll('.katex-html') // This selects
+all the environments we created with texeq
+let i = 0;
+for (let blk of katex\_blocks) \{
+        // Find the number of numbered equation in each sub-block
+        let numeqs = blk.querySelectorAll('.eqn-num')
+        let eqlen = numeqs.length
+        if (eqlen == 0) \{
+                continue // There is nothing to do here since no equation is
+numbered
+        \}
+        let labeleqs = blk.querySelectorAll('.enclosing')
+        if (labeleqs.length == 0) \{
+                // There is no label, so we just have to increase the counter
+                i += eqlen
+                continue
+        \}
+        // Find the offset from the katex-html parent of each equation number,
+the assumption
+        // here is that the span containing the label tag has the same (or
+almost the same) offset as the related equation number
+        let eqoffsets = Array.from(numeqs,findOffsetTop)
+
+
+        for (let item of labeleqs) \{
+                const labelOffset = findOffsetTop(item)
+                let prevDiff = -Infinity
+                let currentOffset = eqoffsets.shift()
+                let currentDiff = currentOffset - labelOffset
+                i += 1
+                while (eqoffsets.length > 0 \&\& currentDiff < 0) \{ // if
+currentOffset >= 0, it means that the current equ-num is lower than the label
+(or at the same height)
+                        prevDiff = currentDiff
+                        currentOffset = eqoffsets.shift()
+                        currentDiff = currentOffset - labelOffset
+                        i += 1
+                \}
+                // Now we have to check whether the previous number with offset
+< 0 or the first with offset > 0 is the closest to the label offset
+                if (Math.abs(currentDiff) > Math.abs(prevDiff)) \{
+                        // The previous entry was closer, so we reduce i by one
+and put back the last shifted element in the offset array
+                        i -= 1
+                        eqoffsets.unshift(currentOffset)
+                \}
+                // We now update all the links that refer to this label
+                const id = item.id
+                const a\_vals = document.querySelectorAll(`[eq\_id=\$\{id\}]`)
+                a\_vals !== null \&\& a\_vals.forEach(a => \{
+                        a\_vec.push(a) // Add this to the vector
+                        a.innerText = `(\$\{i\})`
+                        a.addEventListener('click',eqrefClick)
+                \})
+        \}
+\}
+\}
+
+const notebook = document.querySelector("pluto-notebook")
+
+// We have a mutationobserver for each cell:
+const observers = \{
+        current: [],
+\}
+
+const createCellObservers = () => \{
+        observers.current.forEach((o) => o.disconnect())
+        observers.current = Array.from(notebook.querySelectorAll("pluto-
+cell")).map(el => \{
+                const o = new MutationObserver(updateCallback)
+                o.observe(el, \{attributeFilter: ["class"]\})
+                return o
+        \})
+\}
+createCellObservers()
+
+// And one for the notebook's child list, which updates our cell observers:
+const notebookObserver = new MutationObserver(() => \{
+        updateCallback()
+        createCellObservers()
+\})
+notebookObserver.observe(notebook, \{childList: true\})
+
+invalidation.then(() => \{
+        notebookObserver.disconnect()
+        observers.current.forEach((o) => o.disconnect())
+        a\_vec.forEach(a => a.removeEventListener('click',eqrefClick))
+\})
+</script>
+
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \section{Cauchy Theorem}\label{cauchy-theorem}
+
+    \subsection{Cauchy Integral Formulas}\label{cauchy-integral-formulas}
+
+\textbf{C} is a toy contour
+
+\textbf{Toy contour}: any closed curve where the notion of the interior
+is obvious
+
+\[\large f(\mathcal{z})\,=\,\frac{1}{2\pi i} \oint_{\mathcal{C}}{\dfrac{f(\zeta)}{\zeta\,-\mathcal{z}}d\varsigma}\]
+
+    \section{\texorpdfstring{Cauchy integral formula for the \emph{nth}
+derivative of
+\(f(z)\)}{Cauchy integral formula for the nth derivative of f(z)}}\label{cauchy-integral-formula-for-the-nth-derivative-of-fz}
+
+\(\large f^{(n)}(\mathcal{z})\,=\,\frac{n!}{2\pi i}\oint_{\mathcal{C}}{\dfrac{f(\zeta)}{(\zeta\,-\mathcal{z})^{n+1}}d\zeta}\)
+for all \(z\,\) in the interior of \(C\)
+
+    \subsection{Poisson Integral}\label{poisson-integral}
+
+\(\large u(r,\theta)\,=\frac{1}{2\pi}\int_{0}^{2\pi}{P_{r}(\theta-\varphi)u(1,\varphi)d\varphi}\)
+
+    \subsection{Cauchy inequalities}\label{cauchy-inequalities}
+
+\(f\longrightarrow holomorphic\) in an open set \(\Omega\)
+
+disk \(D\) centered at \(z_{0}\) and has a radius of \(R\)
+
+then:
+
+\(\left|f^{(n)}(z_{0}) \right| \, \le \, \dfrac{n!\left\|f\right\|_{\mathcal{C}}}{R^{n}}\)
+
+where
+\(\left\|f\right|_{\mathcal{C}}\,=\,\underset{z\in \mathcal{C}}{sup}|f(\mathcal{z})|\)
+denotes the supremum of \(|f|\) on the boundary cirlce \(\mathcal{C}\)
+
+    \subsection{Power Series Expansion}\label{power-series-expansion}
+
+if \(f \longrightarrow holomorphic\) in an open set \(\Omega\)
+
+and disk \(D\) centered at \(z_{0}\) where closure is contained in
+\(\Omega\)
+
+\(\implies f\quad\) has a power series expansion at \(z_{0}\)
+
+\(f(\mathcal{z})\,=\,\sum_{n=0}^{\infty}{a_{n}(z-z_{0})^{n}}\) for all
+\(\mathcal{z} \in D\)
+
+and the \textbf{coefficients} are given by:
+
+\(\large a_{n}\,=\,\dfrac{f^{(n)}(z_{0})}{n!}\)
+
+\[\Large \implies f(z)\,=\,\sum_{n=0}^{\infty}{\left(\frac{1}{2\pi i}\oint_{\mathcal{C}}{\dfrac{f(\zeta)}{(\zeta-z_{0})^{n+1}}d\zeta}\right)\cdot(z-z_{0})^{n}}\]
+
+    \textbf{Example of Cauchy Integral}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{C}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{2}\PY{n+nb}{π}\PY{p}{,}\PY{l+m+mi}{360}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.0:0.01750190893364787:6.283185307179586
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fvarsigma}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{t}\PY{+w}{ }\PY{o}{\PYZhy{}\PYZgt{}}\PY{+w}{ }\PY{n}{exp}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.\PYZca{}}\PY{p}{(}\PY{n+nb}{im}\PY{o}{.*}\PY{n}{t}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\#1 (generic function with 1 method)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c}{\PYZsh{} Evaluate the contour}
+\PY{n}{contour}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{fvarsigma}\PY{o}{.}\PY{p}{(}\PY{n}{C}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+360-element Vector\{ComplexF64\}:
+                1.0 + 0.0im
+ 0.9998468455013823 + 0.017501015425828787im
+ 0.9993874289181298 + 0.034996670133171884im
+ 0.9986218909736757 + 0.052481605045579915im
+ 0.9975504661591799 + 0.0699504643701731im
+ 0.9961734826617031 + 0.08739789723816892im
+ 0.9944913622636795 + 0.10481855934390122im
+ 0.9925046202137215 + 0.1222071145818292im
+ 0.9902138650687943 + 0.13955823668103456im
+  0.987619798507809 + 0.15686661083670625im
+ 0.9847232151166929 + 0.17412693533811274im
+ 0.9815250021449998 + 0.19133392319256415im
+ 0.9780261392341382 + 0.20848230374486532im
+                    ⋮
+ 0.9815250021449997 - 0.19133392319256481im
+ 0.9847232151166929 - 0.17412693533811274im
+  0.987619798507809 - 0.15686661083670642im
+ 0.9902138650687943 - 0.13955823668103498im
+ 0.9925046202137214 - 0.1222071145818298im
+ 0.9944913622636795 - 0.10481855934390114im
+  0.996173482661703 - 0.08739789723816904im
+ 0.9975504661591799 - 0.06995046437017344im
+ 0.9986218909736756 - 0.052481605045580436im
+ 0.9993874289181298 - 0.034996670133171724im
+ 0.9998468455013823 - 0.01750101542582883im
+                1.0 - 2.4492935982947064e-16im
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{begin}
+\PY{n}{f}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{GLMakie}\PY{o}{.}\PY{n}{Figure}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{n}{GLMakie}\PY{o}{.}\PY{n}{Axis}\PY{p}{(}\PY{n}{f}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{+w}{ }\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{+w}{ }\PY{n}{xlabel}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{Re(z)}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{+w}{ }\PY{n}{ylabel}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s}{\PYZdq{}}\PY{l+s}{Im(z)}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{+w}{ }\PY{n}{title}\PY{+w}{ }\PY{o}{=}\PY{+w}{ }\PY{l+s+sa}{L}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{l+s}{ e\PYZca{}\PYZob{}z\PYZcb{}}\PY{l+s}{\PYZbs{}}\PY{l+s}{quad }\PY{l+s+se}{\PYZbs{}t}\PY{l+s}{ext\PYZob{}is entire\PYZcb{}}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}
+\PY{n}{GLMakie}\PY{o}{.}\PY{n}{lines!}\PY{p}{(}\PY{n}{ax}\PY{p}{,}\PY{n}{C}\PY{p}{,}\PY{n}{imag}\PY{p}{(}\PY{n}{contour}\PY{p}{)}\PY{p}{,}\PY{+w}{ }\PY{n}{color}\PY{o}{=}\PY{l+s+ss}{:red}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+sa}{L}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{l+s}{Im(e\PYZca{}\PYZob{}z\PYZcb{})}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}
+\PY{n}{GLMakie}\PY{o}{.}\PY{n}{lines!}\PY{p}{(}\PY{n}{ax}\PY{p}{,}\PY{n}{C}\PY{p}{,}\PY{n}{real}\PY{p}{(}\PY{n}{contour}\PY{p}{)}\PY{p}{,}\PY{n}{color}\PY{o}{=}\PY{l+s+ss}{:blue}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+sa}{L}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{l+s}{Re(e\PYZca{}\PYZob{}z\PYZcb{})}\PY{l+s}{\PYZdq{}\PYZdq{}\PYZdq{}}\PY{p}{)}
+\PY{n}{GLMakie}\PY{o}{.}\PY{n}{lines!}\PY{p}{(}\PY{n}{ax}\PY{p}{,}\PY{+w}{ }\PY{n}{real}\PY{p}{(}\PY{n}{contour}\PY{p}{)}\PY{p}{,}\PY{+w}{ }\PY{n}{imag}\PY{p}{(}\PY{n}{contour}\PY{p}{)}\PY{p}{,}\PY{+w}{ }\PY{n}{zeros}\PY{p}{(}\PY{n}{length}\PY{p}{(}\PY{n}{C}\PY{p}{)}\PY{p}{)}\PY{p}{,}\PY{+w}{ }\PY{n}{color}\PY{o}{=}\PY{l+s+ss}{:green}\PY{p}{,}\PY{+w}{ }\PY{n}{label}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{A Toy Contour}\PY{l+s}{\PYZdq{}}\PY{p}{,}\PY{+w}{ }\PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
+\PY{n}{GLMakie}\PY{o}{.}\PY{n}{axislegend}\PY{p}{(}\PY{n}{ax}\PY{p}{)}
+\PY{k}{end}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Makie.Legend()
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{f}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{8}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_14_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    \subsection{Liouville's theorem}\label{liouvilles-theorem}
+
+\begin{itemize}
+\tightlist
+\item
+  if \(f\) is \textbf{entire} and \textbf{bounded} then the \(f\) is
+  constant:
+\end{itemize}
+
+\[\left|f^{'}(z_0)\right|\,\le \frac{B}{R} \text{where}\,\, B\,\,\text{is bounded},\,\,R>0\,\,\text{letting}\,\,R\to\infty\]
+
+Every \textbf{non-constant} polynominal
+\(P(z)\,=\,a_{n}z^{n}+\cdots+a_{0}\,\) with complex coefficient has a
+\textbf{root} in \(\mathbb{C}\)
+
+Every polynominal \(P(z)\,=\,a_{n}z^{n}+\cdots+a_{0}\,\) of degree
+\(n\ge1\) has precisely \(n\) roots in \(\mathbb{C}\,\) if the roots
+denoted by \(w_{1},\cdots w_{n}\) then \(P\) can be factored as:
+
+\[P(z)\,=\,c(z-w_{1})(z-w_{2})\cdots (z-w_{n})\,\, \text{for some}\, c \in \mathbb{C},\,\,c=a_{n}\]
+
+    \subsubsection{Extra notes}\label{extra-notes}
+
+If \(f\) is \textbf{holomorphic} in a \textbf{region} \(\Omega\) that
+vanishes on a sequence of distinct points with a limit point in
+\(\Omega\,\) \(\implies f\) is identically 0
+
+given two holomorphic functions \(f,g\) in a region \(\Omega\) and
+\(f(z)\,=\,g(z)\) for all \(z\) in \textbf{some non-empty} subset of
+\(\,\Omega\,\implies\) \(f(z)=g(z)\)
+
+suppose given two functions \(f\) and \(F\) analytic in region
+\(\,\Omega\,\) and \(\,\Omega^{\prime}\,\) with
+\(\,\Omega\,\subset\Omega^{\prime}\,\,\) if \(f\) and \(F\) agree on the
+smaller set \(\Omega\,\),then \(F\) is analytic continuation of \(f\)
+into the region \(\Omega^{\prime}\).
+
+Then there can be \textbf{only one} such analytic continuation since
+\(F\) is \textbf{uniquely determined} by \(f\)
+
+    \subsection{Morera's Theorem:}\label{moreras-theorem}
+
+If \(f\) is a continuous complex function on an open set \(\Omega\) in
+the complex plane, and if for every closed curve \(T\) in \(\Omega\,\)
+then
+
+\[\oint_{T}{f_{n}(z)\,dz\,=\,0}\]
+
+If \(\left\{f_{n}\right\}_{n=1}^{\infty}\) is a sequence of
+\textbf{holomorphic} functions that converges uniformely to a function
+\(f\) in every compact subset of \(\Omega\) then \(f\) is
+\textbf{holomorphic} in \(\Omega\)
+
+\[\oint_{T}{f_{n}(z)\,dz\,=\,0}\quad\text{for all}\,\,n \implies \oint_{T}{f(z)\,dz}\]
+
+    \subsubsection{Extra notes}\label{extra-notes}
+
+given \(\delta>0\), let \(\Omega_{\delta}\) denote the subset of
+\(\Omega\) defined by:
+
+\[\Omega_{\delta}\,=\left\{\,z\in\Omega\,\,:\,\,\overline{D_{\delta}}(z) \subset \Omega\right\}\]
+
+\[\implies \large{\underset{z \in \Omega}{sup}} \left|F^{\prime}(z)\right|\le \frac{1}{\delta}\,\large{\underset{\zeta \in \Omega}{sup}} \left|F(\zeta)\right|\]
+
+whenever \(F\) is holomorphic in \(\,\Omega\,\) then \(\,F=f_{n}-f\)
+
+This info helps to construct holomorphic functions as a series:
+
+\[F(z)\,=\sum_{n=1}^{\infty}{f_{n}(z)}\]
+
+    \subsection{Holomorphic functions defined in terms of
+integrals}\label{holomorphic-functions-defined-in-terms-of-integrals}
+
+\[f(z)\,=\int_{b}^{a}{F(z,s)ds}\]
+
+where \(F\) is \textbf{holomorphic} in the \textbf{first argument \(z\)}
+and is \textbf{continues in the second argument \(s\)}
+
+    \subsection{Symmetry principle}\label{symmetry-principle}
+
+if \(I\) denotes the interior part of the boundry
+\(\Omega^{+}\,\)and\(\,\Omega^{-}\) then
+
+\[\Omega^{+}\,\cup\,I\,\cup\,\Omega^{-}\,=\Omega\]
+
+if \(f^{+}\) and \(f^{-}\) are holomorphic functions in \(\Omega^{+}\)
+and \(\Omega^{-}\) respectively that extend continuously to \(I\) and
+
+\[f^{+}(x)\,=f^{-}(x)\quad\text{for all}\,\, x\in I\]
+
+\(f\) is defined on \(\Omega\) by:
+
+\[f(z)\,=\,\left\{ \begin{array}{cl}f^{+}(z)&: z \in \Omega^{+} \\
+f^{+}(z)=f^{-}(z)&:\,\,z\in I \\ 
+f^{-}(z)&: z\in\Omega^{-}\end{array}\right.\]
+
+Then \(f\) is holomorphic on all of the \(\Omega\)
+
+    \subsection{Shwartz reflection
+principle}\label{shwartz-reflection-principle}
+
+if \(f\) is a \textbf{holomorphic} function in \(\Omega^{+}\) that
+extends continuously to \(I\) such that \(f\) is real-valued on
+\(I\,\,\), then there exists a function \(F\) \textbf{holomorphic} in
+all of \(\Omega\) such that \(F\,f\,\) on \(\Omega^{+}\)
+
+\[F(z)=\sum \overline{a_{n}}(z-z_{0})^{n},\,\,\,\,\overline{f(x)}=f(x)\,\,\text{whenever}\,\, x\in I\]
+
+    \subsubsection{Extra notes}\label{extra-notes}
+
+\textbf{singularity} : points where the function is not holomorphic and
+are ``poles''
+
+any function holomorphic in a neighborhood of compact set \(K\) can be
+approximated uniformly on \(K\) by rational functions whose
+\textbf{singularities} are in \(K^{c}\)
+
+If \(K^{c}\) is connected, any function holomorphic on a neighborhood of
+\(K\) can be approximated uniformely on \(K\) by polynominals.
+
+Suppose \(f\) is holomorphic on \(\Omega\) and \(K\subset \Omega\) is
+compact, then there exists finitely many segments
+\(\gamma_{1}\cdots\gamma_{n}\,\) in \(\Omega-K\) such that
+
+\[f(z)=\sum_{n=1}^{N}{\frac{1}{2\pi i}} \oint_{\gamma_{n}}{\frac{f(\zeta)}{\zeta-z}d\zeta}\quad\text{for all}\,\,z\in K\]
+
+for any line segment \(\gamma\) entirely contained in \(\Omega-K\,\),
+there exists a sequence of rational functions with singularities on
+\(\gamma\) that approximate the integral
+\(\oint_{\gamma}{\frac{f(\zeta)}{(\zeta-z)}d\zeta}\) uniformly on \(K\),
+if \(K^{c}\) is connected and \(z_{0}\not\in K\) then the function
+
+\[\dfrac{1}{z-z_{0}}\]
+
+can be approximated uniformly on \(K\) by polynominals
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
