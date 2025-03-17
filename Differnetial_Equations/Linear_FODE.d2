@@ -1,0 +1,123 @@
+FODE: Start
+FODE.style.fill: cyan
+FODE.shape: step
+FODE.style.stroke: black
+FODE -> cond: is it in this form {
+  style: {
+    stroke: black
+    font-color: black
+  }
+}
+cond: {
+  equation: |latex
+    a_{n}(t)y^{(n)}(t)+a_{n-1}(t)y^{(n-1)}(t) + \cdots +  a_{1}(t)y^{\prime}(t) +  a_{0}(t)y(t) = g(t)
+  |
+  shape: diamond
+  style: {
+    fill: wheat
+    stroke-width: 1
+    stroke: black
+    font-color: orange
+  }
+}
+
+cond -> change_form: yes {
+  direction: right
+  style: {
+    font-color: green
+    stroke: green
+  }
+}
+
+cond -> not_linear: no {
+  direction: left
+  style: {
+    font-color: red
+    stroke: red
+  }
+}
+
+change_form: change form to {
+  equation: |latex
+    \frac{dy}{dx}+P(x)y=g(x)
+  |
+  style: {
+    stroke: black
+    fill: wheat
+  }
+}
+
+not_linear: don't use this method {
+  direction: right
+  style: {
+    stroke: black
+    fill: red
+  }
+}
+
+int_coeff: calcualte integral coefficent using {
+  equation: |latex
+    \mu(x)= e^{\int{P(x)dx}}
+  |
+  style: {
+    stroke: black
+    fill: wheat
+  }
+}
+
+change_form -> int_coeff: {
+  style: {
+    stroke: black
+    bold: true
+  }
+}
+
+mul_inco: multiply the differential equation by integral coefficient {
+  equation: |latex
+    \mu(x)\frac{dy}{dx}+P(x)y= \mu(x)g(x)
+  |
+  style: {
+    stroke: black
+    fill: wheat
+  }
+}
+int_coeff -> mul_inco: {
+  style: {
+    stroke: black
+    bold: true
+  }
+}
+
+int_both: Integrate both sides: {
+  equation: |latex
+    \int{(\mu(x)y)}^{'}dx = \int{g(x)\mu(x)dx}
+  |
+  style: {
+    stroke: black
+    fill: wheat
+  }
+}
+
+mul_inco -> int_both: {
+  style: {
+    stroke: black
+    bold: true
+  }
+}
+
+final: Solution is {
+  equation: |latex
+    y=\dfrac{\int{\mu(x)g(x)dx}+C}{\mu(x)}
+  |
+  style: {
+    stroke: green
+    fill: wheat
+  }
+}
+
+int_both -> final: {
+  style: {
+    stroke: black
+    bold: true
+  }
+}
