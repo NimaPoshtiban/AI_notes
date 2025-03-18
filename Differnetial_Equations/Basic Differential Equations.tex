@@ -6,7 +6,7 @@
 
 \begin{document}
 \maketitle
-
+\tableofcontents
 \section{First Order Differential Equations (FODEs)}
 \subsection{Linear FODEs}
 \paragraph{Every linear FODE has the following form:}
@@ -67,5 +67,23 @@ Choose the easier one
 	\[h=\int{h^{'}} +c \]
 }
 \subparagraph{Finally substitute the result into equation.}
+
+
+
+\subsubsection{Bernoulli Differential Equations}
+\paragraph{The form of the equation:
+	\[y^{'}+P(x)y=q(x)y^{n}\]
+}
+\paragraph{Solving First Order Bernoulli Equation:}
+\begin{enumerate}
+	\item Divide the equation by $y^{n}$:
+	\[\Rightarrow y^{-n}y^{'}+P(x)y^{1-n}=q(x)\].\\ \vspace{2em}
+	\item Use substitution:
+	\[u=y^{n-1}\quad,u^{'}=(1-n)y^{-n}y^{'}\].\\ \vspace{2em}
+	\item Plug the substitution
+	\[\frac{1}{n-1}u^{'}+P(x)u=q(x)\]. \\ \vspace{2em}
+	\item Now the equation has become \textbf{a Linear Equation}.\\ \vspace{2em}
+	\item Finally after solving for $\mathbf{u}$, begin solving for $y$.
+\end{enumerate}
 
 \end{document}
