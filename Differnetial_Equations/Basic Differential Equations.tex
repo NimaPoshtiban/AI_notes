@@ -1,0 +1,71 @@
+\documentclass{article}
+\author{Nima Poshtiba}
+\date{\today}
+
+\title{A reminder on basic FODEs and SODEs in Real domain}
+
+\begin{document}
+\maketitle
+
+\section{First Order Differential Equations (FODEs)}
+\subsection{Linear FODEs}
+\paragraph{Every linear FODE has the following form:}
+\[
+	P(x)+\frac{dy}{dx}=g(x) \qquad \textbf{P(x) can be empty}
+\]
+\paragraph{Here are the steps to solve these kinds of equations}
+\begin{enumerate}
+	\item Change the form to the standard form \[	P(x)+\frac{dy}{dx}=g(x) \qquad \textbf{P(x) can be empty}\]\vspace{2em}
+	\item Calculate the Integral Coefficient $\mu(x)$\, where: \[\mu(x)=e^{\int{P(x)dx}}\].\\ \vspace{2em}
+	Now multiply the equation by $\mu(x)\,$
+	which will be in the following form: \[\mu(x)P(x)+\mu(x)\frac{dy}{dx}=g(x)\mu(x)\].\\
+	Then change the equation to the following form: \[(\mu(x)y(x))^{'}=g(x)\mu(x)\].\\ \vspace{2em}
+	\item Apply integration to the both side of the equation: \[\int{(\mu(x)y(x))^{'}dx}=\int{g(x)\mu(x)dx}\].\\
+	Then result will be: \[\mu(x)y(x)+c=\int{g(x)\mu(x)dx}\].\\
+	The final form is: \[y(t) = \frac{\int{\mu(x)g(x)dx}+c}{\mu(x)} \].\\ \vspace{2em}
+\end{enumerate}
+\subsection{Non-Linear FODEs}
+\subsubsection{Separable FODEs}
+\paragraph{Each Separable FODEs has the following form:}
+\[N(y)\frac{dy}{dx}=M(x)\]
+\paragraph{Solving Separable FODEs}
+\subparagraph{Normalize the equation to the standard form:}
+\[N(y)\frac{dy}{dx}=M(x)\]
+\subparagraph{Final result: integrate both sides and solve for y}
+\[\int{N(y)dy}=\int{M(x)dx}\]
+\subsubsection{Exact-Equations}
+\paragraph{The standard form of an Exact-Equation is}
+\[M(x,y)+N(x,y)\frac{dy}{dx}=0\]
+\paragraph{Solving the equation}
+\subparagraph{Change the form to the following form:
+\[\Psi_{x}=M(x,y)\quad,\Psi_{y}=N(x,y)\]
+Which will change the form to the following:
+\[\Psi_{x}+\Psi_{y}\frac{dy}{dx}=0\]
+}
+\subparagraph{Now Check if $\Psi(x,y)$ does exists by checking whether this equation holds true:
+	\[N_{x}=M_{y}\]
+}
+\subparagraph{assuming the mentioned equation holds true; This will be the implicit answer of the equation:
+	\[\Psi(x,y)=c\]
+}
+\subparagraph{if any initial condition has been provided (e.g. y(1)=0)\, for solving for a explicit answer we use the following formula:
+	\[\Psi(x,y)=\int{M\,dx}\quad or \quad \Psi(x,y)=\int{N\,dy}\]
+Choose the easier one
+}
+\subparagraph{depending on the chosen integral we will have:
+	\[\Psi(x,y)=M+h(y)\]
+	or
+	\[\Psi(x,y)=N+h(x)\]
+}
+\subparagraph{begin to find the value of h(x) or h(y) from $\Psi$.if solved using M:
+	\[\Psi_{y}=N\]
+	and if solved using N:
+	\[\Psi_{x}=M\]
+	Extract $h^{'}$ function from the mentioned $\Psi$ function.
+}
+\subparagraph{To find $h$ function integrate it and we will get a constant:
+	\[h=\int{h^{'}} +c \]
+}
+\subparagraph{Finally substitute the result into equation.}
+
+\end{document}
